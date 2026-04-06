@@ -24,6 +24,7 @@ const App = {
   currentUser: null,
   currentProfile: null,
   messageSubscription: null,
+  presenceChannel: null,
   unreadCount: 0,
   currentScreen: 'splash',
 
@@ -50,6 +51,7 @@ const App = {
       this.navigate('home', false);
       await this.fetchMessages();
       this.subscribeToMessages();
+      this.trackPresence();
     } else {
       this.navigate('splash', false);
     }
@@ -63,6 +65,7 @@ const App = {
         if (event === 'SIGNED_IN') {
           this.fetchMessages();
           this.subscribeToMessages();
+          this.trackPresence();
         }
       }
     });
@@ -107,6 +110,37 @@ const App = {
   },
 
   // ---- Notifications / Unread State ----
+  trackPresence() {
+    if (this.presenceChannel || !this.currentUser) return;
+    
+    this.presenceChannel = this.supabase.channel('online-users', {
+      config: { presence: { key: this.currentUser.id } }
+    });
+    
+    this.presenceChannel
+      .on('presence', { event: 'sync' }, () => {
+        const state = this.presenceChannel.presenceState();
+        const count = Object.keys(state).length;
+        this.updateOnlineCount(count);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await this.presenceChannel.track({
+            user_id: this.currentUser.id,
+            online_at: new Date().toISOString()
+          });
+        }
+      });
+  },
+
+  updateOnlineCount(count) {
+    const el = document.getElementById('online-count');
+    if (el) {
+      const label = count === 1 ? 'student online' : 'students online';
+      el.innerHTML = `<span class="online-dot"></span> ${count} ${label}`;
+    }
+  },
+
   clearUnreadBadge() {
     this.unreadCount = 0;
     const badge = document.getElementById('chat-badge');
@@ -465,6 +499,10 @@ const App = {
         if (this.messageSubscription) {
           this.supabase.removeChannel(this.messageSubscription);
           this.messageSubscription = null;
+        }
+        if (this.presenceChannel) {
+          this.supabase.removeChannel(this.presenceChannel);
+          this.presenceChannel = null;
         }
       }
       this.currentUser = null;

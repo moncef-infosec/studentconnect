@@ -27,6 +27,7 @@ const App = {
   presenceChannel: null,
   unreadCount: 0,
   currentScreen: 'splash',
+  isReady: false,
 
   async init() {
     this.initDarkMode();
@@ -43,32 +44,42 @@ const App = {
     
     this.supabase = supabase.createClient('https://nrwlciwnjpwetxrhwftm.supabase.co', 'sb_publishable_K-deyGfvdwlqJPnXTmLt6Q_4C5WBfPG');
     
+    // Check initial session
     const { data: { session } } = await this.supabase.auth.getSession();
     if (session) {
       this.currentUser = session.user;
-      await this.fetchOwnProfile();
-      this.updateProfileUI();
+      // Handle initial navigation but let onAuthStateChange trigger data loading
       this.navigate('home', false);
-      await this.fetchMessages();
-      this.subscribeToMessages();
-      this.trackPresence();
     } else {
       this.navigate('splash', false);
     }
     
+    // Single source of truth for auth-related data loading
     this.supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth Event:", event);
       this.currentUser = session ? session.user : null;
+      
       if (this.currentUser) {
-        await this.fetchOwnProfile();
-        this.updateProfileUI();
-        // Re-load chat history and real-time subscription after login
-        if (event === 'SIGNED_IN') {
-          this.fetchMessages();
-          this.subscribeToMessages();
-          this.trackPresence();
+        if (!this.isReady || event === 'SIGNED_IN') {
+          await this.onUserReady(this.currentUser);
         }
+      } else {
+        this.isReady = false;
       }
     });
+  },
+
+  async onUserReady(user) {
+    this.isReady = true;
+    await this.fetchOwnProfile();
+    this.updateProfileUI();
+    
+    // Load messages and start subscriptions
+    await this.fetchMessages();
+    this.subscribeToMessages();
+    this.trackPresence();
+    
+    console.log("App ready for user:", user.email);
   },
 
   async fetchOwnProfile() {
@@ -677,14 +688,6 @@ const App = {
       });
     });
 
-    // Logout
-    document.getElementById('settings-logout')?.addEventListener('click', async () => {
-      if (this.supabase) {
-        await this.supabase.auth.signOut();
-      }
-      this.history = [];
-      this.navigate('splash');
-    });
   }
 };
 

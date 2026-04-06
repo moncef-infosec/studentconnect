@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudentConnect - Political Science – Batna</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#cf2c30",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary-fixed": "#002113",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary-container": "#6cf8bb",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#eeefff",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-surface": "#191c1d",
+                        "on-background": "#191c1d",
+                        "primary-container": "#2563eb",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-fixed": "#410004",
+                        "outline": "#737686",
+                        "on-secondary-container": "#00714d",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-tertiary-container": "#ffecea",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-tint": "#0053db",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#434655",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary": "#006c49",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "background": "#f8f9fa",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "surface": "#f8f9fa",
+                        "tertiary": "#ab0b1c",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-fixed": "#dbe1ff",
+                        "primary": "#004ac6",
+                        "on-tertiary": "#ffffff"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+        }
+        .chat-bg {
+            background-color: #ffffff;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-surface-container-high flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform duration-200 text-blue-700">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white overflow-hidden ring-2 ring-white">
+<img alt="App Icon" class="w-full h-full p-1.5" src="https://lh3.googleusercontent.com/aida/ADBb0uicw35TL_SRztK8WiA-qC8i8KF3QLsSh-6xtlZAU4l3CIYiVF7Jg1Cf07b-VezxAeDKSXKCTEeurrxeFESunvet0UD19_5D5yf8sF0ktdfQXGo-yzTQxs3ycLqBPmRidefS53AnBSRnG1Xs01plCHczDEDARiZgbIoC9_8ludBettOGcVQHT8DxCCiaqrTfAqBUmRiKUU0QmXooy5viCNBkjDcsTjeOiEAV4pdCuZAMkdTLNo417P0I78Qi1vPFaA8OMmlqeh7K"/>
+</div>
+<div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-blue-700 tracking-tight">Political Science – Batna</h1>
+<p class="text-[10px] font-medium text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                        12 students online
+                    </p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-100/50 transition-colors text-slate-500 rounded-full">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 hover:bg-slate-100/50 transition-colors text-slate-500 rounded-full">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas (Empty State) -->
+<main class="h-screen pt-24 pb-48 px-4 flex items-center justify-center chat-bg">
+<div class="max-w-md w-full flex flex-col items-center text-center">
+<div class="relative mb-8">
+<div class="w-32 h-32 bg-primary/5 rounded-full flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-primary/20 text-7xl select-none" style="font-variation-settings: 'wght' 200;">school</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-6xl drop-shadow-sm" style="font-variation-settings: 'FILL' 1, 'wght' 400;">forum</span>
+</div>
+</div>
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-3">No messages yet</h2>
+<p class="text-on-surface-variant leading-relaxed max-w-[280px]">Start a conversation with your fellow Political Science students in Batna.</p>
+</div>
+</main>
+<!-- Input Area (Fixed Bottom, offset by BottomNavBar) -->
+<div class="fixed bottom-[88px] left-0 w-full bg-white/90 backdrop-blur-md pb-4 pt-4 px-4 z-40 border-t border-surface-container-high">
+<div class="max-w-3xl mx-auto flex items-end gap-3">
+<!-- Left Action Button -->
+<button class="mb-1 p-2 bg-surface-container-low text-on-surface-variant rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+<!-- Text Input -->
+<div class="flex-1 relative flex items-center bg-surface-container-low rounded-[1.5rem] px-4 min-h-[48px] shadow-inner border border-surface-container-high">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md py-3 resize-none max-h-32 text-on-surface placeholder:text-slate-400" placeholder="Type a message..." rows="1"></textarea>
+<button class="p-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mood</span>
+</button>
+</div>
+<!-- Send Button -->
+<button class="mb-1 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-lg active:scale-90 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full rounded-t-3xl z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.06)] border-t border-surface-container-high">
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<!-- Home -->
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined">home</span>
+<span class="font-manrope text-[10px] font-medium tracking-wide uppercase">Home</span>
+</button>
+<!-- Chat (Active) -->
+<button class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl px-5 py-2 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-manrope text-[10px] font-medium tracking-wide uppercase">Chat</span>
+</button>
+<!-- Alerts -->
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-manrope text-[10px] font-medium tracking-wide uppercase">Alerts</span>
+</button>
+<!-- Settings -->
+<button class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-manrope text-[10px] font-medium tracking-wide uppercase">Settings</span>
+</button>
+</div>
+</nav>
+</body></html>

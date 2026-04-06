@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#cf2c30",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-bright": "#f8f9fa",
+              "on-secondary-fixed": "#002113",
+              "secondary-fixed-dim": "#4edea3",
+              "secondary-container": "#6cf8bb",
+              "on-error-container": "#93000a",
+              "on-primary-container": "#eeefff",
+              "on-error": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface-container": "#edeeef",
+              "on-surface": "#191c1d",
+              "on-background": "#191c1d",
+              "primary-container": "#2563eb",
+              "surface-container-high": "#e7e8e9",
+              "on-tertiary-fixed": "#410004",
+              "outline": "#737686",
+              "on-secondary-container": "#00714d",
+              "tertiary-fixed": "#ffdad7",
+              "on-tertiary-container": "#ffecea",
+              "surface-dim": "#d9dadb",
+              "surface-container-low": "#f3f4f5",
+              "surface-tint": "#0053db",
+              "outline-variant": "#c3c6d7",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#005236",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#434655",
+              "primary-fixed-dim": "#b4c5ff",
+              "secondary": "#006c49",
+              "on-tertiary-fixed-variant": "#930013",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2e3132",
+              "on-primary-fixed-variant": "#003ea8",
+              "background": "#f8f9fa",
+              "inverse-primary": "#b4c5ff",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "surface": "#f8f9fa",
+              "tertiary": "#ab0b1c",
+              "secondary-fixed": "#6ffbbe",
+              "on-primary-fixed": "#00174b",
+              "surface-container-highest": "#e1e3e4",
+              "primary-fixed": "#dbe1ff",
+              "primary": "#004ac6",
+              "on-tertiary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .gradient-button {
+        background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface overflow-hidden">
+<!-- Splash Screen Wrapper -->
+<main class="relative h-screen w-full flex flex-col items-center justify-between py-20 px-8 bg-surface overflow-hidden">
+<!-- Background Subtle Texture -->
+<div class="absolute inset-0 z-0 opacity-40">
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary-fixed/30 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary-container/20 blur-[120px]"></div>
+</div>
+<!-- Header Content -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="mb-4 flex items-center justify-center bg-primary-container/10 p-4 rounded-full"><img alt="StudentConnect Logo" class="w-12 h-12 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uicw35TL_SRztK8WiA-qC8i8KF3QLsSh-6xtlZAU4l3CIYiVF7Jg1Cf07b-VezxAeDKSXKCTEeurrxeFESunvet0UD19_5D5yf8sF0ktdfQXGo-yzTQxs3ycLqBPmRidefS53AnBSRnG1Xs01plCHczDEDARiZgbIoC9_8ludBettOGcVQHT8DxCCiaqrTfAqBUmRiKUU0QmXooy5viCNBkjDcsTjeOiEAV4pdCuZAMkdTLNo417P0I78Qi1vPFaA8OMmlqeh7K"/></div>
+<h1 class="font-headline text-display-sm font-semibold tracking-tight text-on-surface mb-2">
+                StudentConnect
+            </h1>
+<p class="font-body text-title-md text-on-surface-variant max-w-[280px]">
+                Connecting Students, Empowering Education
+            </p>
+</div>
+<!-- Center Illustration (Bento-style Glass Card) -->
+<div class="relative z-10 w-full max-w-sm aspect-square">
+<div class="absolute inset-0 bg-surface-container-lowest rounded-[2.5rem] shadow-[0_24px_48px_rgba(0,74,198,0.06)] overflow-hidden">
+<img alt="Student Collaboration" class="w-full h-full object-cover grayscale-[0.2] opacity-90" data-alt="Modern high-angle shot of diverse university students studying together in a bright glass-walled library with clean architectural lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABqubke0niGF8zBiKrWXW3MTmNPNoa0-RNks2xdLNAyPCdtoQmMLaS5GbCCmf8r9LmUNWzY3tj1wC6qYNd5SjWkhUm0LmIzc5HVT9GlovrBwyisy9V_uiqTmkQVj7t340f0KtHzFidRUf_GzTOULT4APiZ6wahn8iY9XSYWLVTUAaGnqyodCyWq-FDr0qzH6s0l4iGftL3hXXhMk6atwDOXi5ClRFib45Ut5PajTVudf1e8cqq3PqQfOjmqKiJCaSCnJJi_xAld00"/>
+<!-- Overlay Artistic Elements -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+<!-- Floating Minimalist Data Tag -->
+<div class="absolute bottom-6 left-6 right-6 glass-effect bg-white/70 p-4 rounded-2xl flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm font-semibold text-on-surface">Community Hub</span>
+<span class="text-[10px] text-on-surface-variant">Active scholarly pulse</span>
+</div>
+</div>
+</div>
+<!-- Floating Decorative Elements -->
+<div class="absolute -top-4 -right-4 h-24 w-24 bg-secondary-container/80 rounded-3xl -rotate-12 blur-[2px] z-[-1]"></div>
+<div class="absolute -bottom-2 -left-2 h-16 w-16 bg-primary-fixed-dim/50 rounded-full blur-[4px] z-[-1]"></div>
+</div>
+<!-- Action Area -->
+<div class="relative z-10 w-full max-w-sm space-y-4">
+<button class="gradient-button w-full py-4 px-6 rounded-full font-headline font-semibold text-white shadow-lg active:scale-[0.97] transition-all duration-200">
+                Get Started
+            </button>
+<button class="w-full py-4 px-6 rounded-full font-headline font-semibold text-primary bg-surface-container-low active:scale-[0.97] transition-all duration-200">
+                Sign In
+            </button>
+<div class="pt-4 flex justify-center items-center gap-2">
+<span class="h-1.5 w-6 rounded-full bg-primary"></span>
+<span class="h-1.5 w-1.5 rounded-full bg-outline-variant"></span>
+<span class="h-1.5 w-1.5 rounded-full bg-outline-variant"></span>
+</div>
+</div>
+</main>
+<!-- Global Layout Separation Logic (Invisible but defines the flow) -->
+<div class="fixed inset-0 pointer-events-none border-[12px] border-surface-container-low opacity-20 z-50"></div>
+</body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Privacy &amp; Security | StudentConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Manrope:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#4edea3",
+              "tertiary-container": "#cf2c30",
+              "surface-bright": "#f8f9fa",
+              "primary": "#004ac6",
+              "on-tertiary-container": "#ffecea",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "inverse-primary": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed": "#002113",
+              "surface-container-high": "#e7e8e9",
+              "on-background": "#191c1d",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-container": "#00714d",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-container": "#edeeef",
+              "surface": "#f8f9fa",
+              "primary-container": "#2563eb",
+              "tertiary": "#ab0b1c",
+              "surface-container-highest": "#e1e3e4",
+              "on-tertiary-fixed": "#410004",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-fixed": "#00174b",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#005236",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "inverse-surface": "#2e3132",
+              "outline-variant": "#c3c6d7",
+              "outline": "#737686",
+              "surface-tint": "#0053db",
+              "secondary-container": "#6cf8bb",
+              "surface-container-low": "#f3f4f5",
+              "on-error": "#ffffff",
+              "secondary": "#006c49",
+              "on-primary-container": "#eeefff",
+              "secondary-fixed": "#6ffbbe",
+              "on-tertiary-fixed-variant": "#930013",
+              "tertiary-fixed": "#ffdad7",
+              "on-surface": "#191c1d",
+              "on-surface-variant": "#434655",
+              "on-primary-fixed-variant": "#003ea8",
+              "surface-dim": "#d9dadb",
+              "background": "#f8f9fa"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-header {
+            background: rgba(248, 249, fa, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        body {
+          min-height: 100dvh;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 glass-header shadow-sm md:shadow-none">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined text-blue-600">arrow_back</span>
+</button>
+<h1 class="text-xl font-semibold tracking-tight text-slate-900 font-headline">The Academic Pulse</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-slate-500 font-medium hover:text-blue-500 transition-colors" href="#">Home</a>
+<a class="text-slate-500 font-medium hover:text-blue-500 transition-colors" href="#">Schedule</a>
+<a class="text-slate-500 font-medium hover:text-blue-500 transition-colors" href="#">Pulse</a>
+<a class="text-blue-700 font-bold" href="#">Settings</a>
+</nav>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-20 px-6 max-w-screen-xl mx-auto">
+<!-- Hero Header -->
+<section class="pt-12 mb-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/40 text-on-secondary-container text-xs font-semibold mb-6">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span>SECURE CORE</span>
+</div>
+<h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tight text-on-surface mb-4">Privacy &amp; Security</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed font-light">
+                        Manage your digital presence and safeguard your academic identity with StudentConnect's advanced encryption standards.
+                    </p>
+</div>
+<div class="hidden md:block">
+<div class="w-32 h-32 rounded-3xl bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary/20" style="font-variation-settings: 'wght' 200;">verified_user</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Security Section -->
+<section class="md:col-span-7 flex flex-col gap-8">
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-[0_-4px_24px_rgba(0,0,0,0.02)] border border-outline-variant/15">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">lock</span>
+<h3 class="text-2xl font-headline font-semibold">Security</h3>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Change Password Item (Actionable Link) -->
+<a class="group flex items-center justify-between p-4 -mx-4 rounded-2xl hover:bg-surface-container-low transition-all duration-300" href="#">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">password</span>
+</div>
+<div>
+<h4 class="font-headline font-medium text-on-surface">Change Password</h4>
+<p class="text-sm text-on-surface-variant">Update your login credentials regularly</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Live Status Card -->
+<div class="bg-surface-container-low p-8 rounded-3xl relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-lg font-headline font-semibold mb-2">Encryption Status</h4>
+<div class="flex items-center gap-2 text-on-secondary-container text-sm font-medium mb-4">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-pulse"></span>
+                            End-to-end active
+                        </div>
+<p class="text-sm text-on-surface-variant max-w-xs">Your academic transcripts and private messages are encrypted using AES-256 protocols.</p>
+</div>
+<span class="absolute -bottom-10 -right-10 material-symbols-outlined text-[180px] text-white/50 dark:text-slate-800/20" style="font-variation-settings: 'wght' 100;">verified_user</span>
+</div>
+</section>
+<!-- Danger Zone Section (Replaces Data Control layout focus) -->
+<section class="md:col-span-5 flex flex-col gap-8">
+<div class="bg-surface-container-highest p-8 rounded-3xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h3 class="text-2xl font-headline font-semibold text-on-surface">Privacy &amp; Safety</h3>
+</div>
+<div>
+<h5 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Danger Zone</h5>
+<button class="w-full flex items-center justify-between p-4 rounded-2xl bg-error-container/30 hover:bg-error-container/50 transition-all text-left">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-error">delete_forever</span>
+<span class="font-headline font-medium text-error">Account Deletion</span>
+</div>
+<span class="material-symbols-outlined text-error/40">warning</span>
+</button>
+<p class="mt-3 px-2 text-[11px] text-on-surface-variant leading-relaxed">
+                            Deleting your account is permanent. All course data and pulse history will be purged within 30 days.
+                        </p>
+</div>
+</div>
+<!-- Editorial Sidebar Info -->
+<div class="px-4">
+<h4 class="font-headline font-semibold text-on-surface mb-2">Why Privacy Matters?</h4>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+                        At StudentConnect, your academic journey is personal. We never sell your data to third-party recruiters without your explicit consent. 
+                        <a class="text-primary font-medium hover:underline" href="#">Read Policy →</a>
+</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Decorative Elements -->
+<div class="fixed top-0 right-0 -z-10 w-1/3 h-1/2 opacity-20 pointer-events-none">
+<div class="absolute top-0 right-0 w-full h-full primary-gradient opacity-10 blur-[120px] rounded-full"></div>
+</div>
+</body></html>

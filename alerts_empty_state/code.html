@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alerts | StudentConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Manrope:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#f0f1f2",
+              "surface-bright": "#f8f9fa",
+              "primary-fixed": "#dbe1ff",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "inverse-surface": "#2e3132",
+              "on-primary-fixed-variant": "#003ea8",
+              "on-error": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9dadb",
+              "surface-container-high": "#e7e8e9",
+              "primary-container": "#2563eb",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed-variant": "#930013",
+              "secondary-fixed-dim": "#4edea3",
+              "on-secondary-fixed-variant": "#005236",
+              "surface-container-highest": "#e1e3e4",
+              "on-surface-variant": "#434655",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#b4c5ff",
+              "surface-container": "#edeeef",
+              "secondary-container": "#6cf8bb",
+              "outline": "#737686",
+              "tertiary-fixed": "#ffdad7",
+              "on-tertiary-fixed": "#410004",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#6ffbbe",
+              "on-primary-fixed": "#00174b",
+              "on-secondary": "#ffffff",
+              "on-surface": "#191c1d",
+              "surface": "#f8f9fa",
+              "secondary": "#006c49",
+              "surface-container-low": "#f3f4f5",
+              "tertiary": "#ab0b1c",
+              "primary": "#004ac6",
+              "surface-tint": "#0053db",
+              "on-secondary-container": "#00714d",
+              "on-background": "#191c1d",
+              "error-container": "#ffdad6",
+              "tertiary-container": "#cf2c30",
+              "outline-variant": "#c3c6d7",
+              "background": "#f8f9fa",
+              "on-tertiary-container": "#ffecea",
+              "on-primary-container": "#eeefff",
+              "on-secondary-fixed": "#002113"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .primary-gradient {
+        background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+      }
+    </style>
+<style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen pb-32 selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#f8f9fa]/70 dark:bg-[#191c1d]/70 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 cursor-pointer">menu</span>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold text-xl tracking-tight text-[#191c1d] dark:text-[#f8f9fa]">Alerts</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a young male student with glasses looking thoughtfully at the camera in a modern library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq8sLEs_LVelhgTTZ_4pRODOkW6hVuMXxRDGXsX2A43EbKjLSpSYMyjHmhG_oy0uf1Wm020KRXRvMJ2P2EgUR7KaaVyMTQvr3ewjQtPvpLC_sunEE9xhQeYyIRJliE79MpHfcnNgH72FanliZ_pcjCf3nPKPy03wlM8EYZtkwdnyb0ixT4dycLkbtbu3PgjyyhmZ4rks8HVZ_OCBNT9WKlNgvopt4cxoNWDLqoNLIDLHoHWhtNEOltEI0FK2kAYsef3lKL4ox3Uhk"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto relative flex flex-col min-h-[calc(100vh-160px)]">
+<!-- Brand Background Decorative Element -->
+<div class="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none rotate-12 scale-150">
+<img alt="University Logo" class="w-64 h-64 grayscale" data-alt="minimalist university seal featuring an open book and abstract torch in a scholarly geometric frame" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfTtCUApGpBcoiE60ctfzuXfuhXDsd2YYbfR_GmXfIWQet5m766p2JFrTLi4EBZVj28LgkFBEiROoRFUW5w9h_2UeYbeEfUDthGVpaii-9TYh_owWjRNNCvChE0-ciQQcCyu6tzbWDhdkMGh42jdm4m07hEsokRXRAsVnJTQUgaLubt-43NjTOtMIhD2hEBbzQmDkFzMZ_n8FEzYwN5ePbEOm3MeKaLvYTi3MlxuNIcQ1ezwqLmKCqtlrjFZObNQseB99uzWmyV0k"/>
+</div>
+<!-- Hero Section -->
+<header class="mb-8 pt-10">
+<h2 class="font-headline font-semibold text-4xl text-on-surface tracking-tight mb-2">The Scholarly Stream</h2>
+<p class="text-on-surface-variant font-body text-sm max-w-md">Your academic pulse, choreographed to keep you informed without the noise.</p>
+</header>
+<!-- Empty State Section -->
+<section class="flex-grow flex flex-col items-center justify-center text-center py-12">
+<div class="relative mb-8">
+<div class="w-32 h-32 rounded-full bg-primary/5 flex items-center justify-center animate-pulse"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-7xl" style="font-variation-settings: 'FILL' 0, 'wght' 200;">notifications_paused</span>
+</div>
+<!-- Scholarly hint: book icon overlay -->
+<div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-surface shadow-sm flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-xl">auto_stories</span>
+</div>
+</div>
+<h3 class="font-headline font-semibold text-2xl text-on-surface mb-3">The Scholarly Stream is Quiet</h3>
+<p class="text-on-surface-variant font-body text-sm max-w-xs leading-relaxed">
+                No notifications yet. We'll let you know when there’s an academic update or a message from the college.
+            </p>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f8f9fa]/70 dark:bg-[#191c1d]/70 backdrop-blur-xl rounded-t-3xl z-50 shadow-[0_-4px_24px_rgba(25,28,29,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#191c1d]/60 dark:text-[#f8f9fa]/60 px-4 py-1 hover:bg-[#f3f4f5] dark:hover:bg-[#2a2d2e] rounded-xl transition-colors active:scale-97 duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] font-medium text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#191c1d]/60 dark:text-[#f8f9fa]/60 px-4 py-1 hover:bg-[#f3f4f5] dark:hover:bg-[#2a2d2e] rounded-xl transition-colors active:scale-97 duration-150" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Manrope'] font-medium text-[10px]">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#2563EB]/10 dark:bg-[#2563EB]/20 text-[#2563EB] dark:text-[#4a86ff] rounded-2xl px-4 py-1 active:scale-97 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-['Manrope'] font-medium text-[10px]">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#191c1d]/60 dark:text-[#f8f9fa]/60 px-4 py-1 hover:bg-[#f3f4f5] dark:hover:bg-[#2a2d2e] rounded-xl transition-colors active:scale-97 duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Manrope'] font-medium text-[10px]">Settings</span>
+</a>
+</nav>
+<!-- Subtle Floating Action Button -->
+<button class="fixed right-6 bottom-28 w-14 h-14 primary-gradient text-white rounded-full flex items-center justify-center shadow-[0_8px_32px_rgba(0,74,198,0.25)] active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined">notification_add</span>
+</button>
+</body></html>

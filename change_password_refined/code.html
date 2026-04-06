@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Manrope:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#004ac6",
+              "on-primary-fixed-variant": "#003ea8",
+              "primary-container": "#2563eb",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed": "#410004",
+              "on-secondary-fixed-variant": "#005236",
+              "surface-container-high": "#e7e8e9",
+              "on-error-container": "#93000a",
+              "background": "#f8f9fa",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-tint": "#0053db",
+              "outline": "#737686",
+              "secondary-fixed-dim": "#4edea3",
+              "on-surface-variant": "#434655",
+              "surface": "#f8f9fa",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-fixed": "#002113",
+              "tertiary-fixed": "#ffdad7",
+              "on-tertiary-fixed-variant": "#930013",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#191c1d",
+              "surface-bright": "#f8f9fa",
+              "on-tertiary-container": "#ffecea",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d9dadb",
+              "surface-container-low": "#f3f4f5",
+              "on-primary-container": "#eeefff",
+              "inverse-surface": "#2e3132",
+              "error-container": "#ffdad6",
+              "on-error": "#ffffff",
+              "on-surface": "#191c1d",
+              "surface-variant": "#e1e3e4",
+              "tertiary": "#ab0b1c",
+              "on-primary-fixed": "#00174b",
+              "outline-variant": "#c3c6d7",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "secondary-fixed": "#6ffbbe",
+              "surface-container-highest": "#e1e3e4",
+              "on-secondary-container": "#00714d",
+              "inverse-primary": "#b4c5ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-header {
+            background: rgba(248, 249, 250, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .pulse-button-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #191c1d;
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 glass-header shadow-sm shadow-blue-900/5 h-16 flex items-center justify-between px-6">
+<div class="flex items-center gap-4">
+<button class="text-blue-700 dark:text-blue-400 active:scale-95 transition-transform duration-200 p-2 hover:bg-slate-200/50 rounded-full" style="">
+<span class="material-symbols-outlined" data-icon="arrow_back" style="">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold text-lg tracking-tight text-blue-700 dark:text-blue-400" style="">change Password</h1>
+</div>
+<div class="flex items-center">
+<span class="text-blue-700 font-bold tracking-tighter text-xl" style=""><br></span>
+</div>
+</header>
+<main class="pt-32 pb-12 px-6 max-w-2xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-12">
+<h2 class="font-headline font-semibold text-[2.25rem] leading-tight text-on-surface mb-3" style="">Change Password</h2>
+<p class="font-body text-on-surface-variant text-body-md max-w-md" style="">
+                Ensure your account remains secure by choosing a strong, unique password. We recommend a mix of symbols, numbers, and letters.
+            </p>
+</section>
+<!-- Form Canvas -->
+<div class="space-y-10">
+<!-- Form Group -->
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm">
+<form class="space-y-8">
+<!-- Input Field: Current Password -->
+<div class="space-y-2">
+<label class="block font-label text-[0.8125rem] font-medium text-on-surface-variant ml-4" style="">Current Password</label>
+<div class="relative">
+<input class="w-full h-14 px-6 bg-surface-container-lowest border-none rounded-full focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline-variant font-body" placeholder="••••••••" type="password">
+<span class="absolute right-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline cursor-pointer" data-icon="visibility" style="">visibility</span>
+</div>
+</div>
+<!-- Input Field: New Password -->
+<div class="space-y-2">
+<label class="block font-label text-[0.8125rem] font-medium text-on-surface-variant ml-4" style="">New Password</label>
+<div class="relative">
+<input class="w-full h-14 px-6 bg-surface-container-lowest border-none rounded-full focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline-variant font-body" placeholder="••••••••" type="password">
+<span class="absolute right-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline cursor-pointer" data-icon="lock" style="">lock</span>
+</div>
+<div class="flex items-center gap-2 mt-2 ml-4">
+<div class="h-1 w-12 bg-primary rounded-full"></div>
+<div class="h-1 w-12 bg-primary rounded-full"></div>
+<div class="h-1 w-12 bg-surface-container-highest rounded-full"></div>
+<span class="font-label text-label-sm text-primary font-medium ml-2" style="">Moderate Strength</span>
+</div>
+</div>
+<!-- Input Field: Confirm New Password -->
+<div class="space-y-2">
+<label class="block font-label text-[0.8125rem] font-medium text-on-surface-variant ml-4" style="">Confirm New Password</label>
+<div class="relative">
+<input class="w-full h-14 px-6 bg-surface-container-lowest border-none rounded-full focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline-variant font-body" placeholder="••••••••" type="password">
+<span class="absolute right-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline cursor-pointer" data-icon="check_circle" style="">check_circle</span>
+</div>
+</div>
+<!-- Action Section -->
+<div class="pt-4">
+<button class="w-full h-14 pulse-button-gradient text-on-primary font-headline font-semibold text-lg rounded-full active:scale-[0.97] transition-all duration-200 shadow-lg shadow-primary/20 flex items-center justify-center gap-2" type="submit" style="">
+                            Update Password
+                            <span class="material-symbols-outlined" data-icon="arrow_forward" style="">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Contextual Info Bento -->
+<!-- Branding Footer / Decoration -->
+<div class="pt-12 flex justify-between items-center opacity-40 grayscale">
+<div class="h-px bg-outline-variant flex-grow mr-6"></div>
+<span class="font-headline font-bold text-on-surface tracking-widest text-xs" style="">ACADEMIC NEXUS • 2024</span>
+<div class="h-px bg-outline-variant flex-grow ml-6"></div>
+</div>
+</div>
+</main>
+<!-- Side Decorative Image (Editorial Style) -->
+<div class="hidden lg:block fixed right-0 top-0 h-full w-1/3 z-[-1] pointer-events-none overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-l from-surface to-transparent z-10"></div>
+<img alt="Security Decoration" class="h-full w-full object-cover opacity-20" data-alt="high-tech abstract circuit board patterns with deep blue glowing lights and soft cinematic depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_5RjQ3XC-DS93AD7S2HyMV8AQ0DZaD4eELsy8zfgsPHBg7I3CHmkjrADQu1DikXpcSuYVkXyx82MMEKTKwMzEl_5nQNyo8dXe-C2zBeLECNMkdguUOEs-vC5Yzzyx0mwxPedwPI89SbLb4QuKNd7y8x4cpC67ZUkecIcwIPrcBM_PbCkZyB3MDvs6BHt3B0Ex-nplUCuM9ZTCmkk-T1F1HPkE3iXasVI7XVoQ0eaq4G29myLRUBrf9jEUMUUv5gnRT-pUiybu-q4" style="">
+</div>
+</body></html>

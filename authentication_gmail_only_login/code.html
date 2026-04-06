@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>StudentConnect - The Scholarly Stream</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Manrope:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#cf2c30",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary-fixed": "#002113",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary-container": "#6cf8bb",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#eeefff",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-surface": "#191c1d",
+                        "on-background": "#191c1d",
+                        "primary-container": "#2563eb",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-fixed": "#410004",
+                        "outline": "#737686",
+                        "on-secondary-container": "#00714d",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-tertiary-container": "#ffecea",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-tint": "#0053db",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#434655",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary": "#006c49",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "background": "#f8f9fa",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "surface": "#f8f9fa",
+                        "tertiary": "#ab0b1c",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-fixed": "#dbe1ff",
+                        "primary": "#004ac6",
+                        "on-tertiary": "#ffffff"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(248, 249, 250, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Hero Background Element (Visual Texture) -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 -right-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex-grow flex flex-col items-center justify-center px-6 py-12 md:py-20">
+<!-- App Logo & Identity -->
+<header class="w-full max-w-md mb-12 flex flex-col items-center text-center">
+<div class="w-24 h-24 mb-6 flex items-center justify-center rounded-full overflow-hidden">
+<img alt="StudentConnect Logo" class="w-full h-full object-contain rounded-full" src="https://lh3.googleusercontent.com/aida/ADBb0uicw35TL_SRztK8WiA-qC8i8KF3QLsSh-6xtlZAU4l3CIYiVF7Jg1Cf07b-VezxAeDKSXKCTEeurrxeFESunvet0UD19_5D5yf8sF0ktdfQXGo-yzTQxs3ycLqBPmRidefS53AnBSRnG1Xs01plCHczDEDARiZgbIoC9_8ludBettOGcVQHT8DxCCiaqrTfAqBUmRiKUU0QmXooy5viCNBkjDcsTjeOiEAV4pdCuZAMkdTLNo417P0I78Qi1vPFaA8OMmlqeh7K" style="">
+</div>
+<h1 class="font-headline font-bold text-4xl tracking-tight text-primary mb-2" style="">StudentConnect</h1>
+<p class="font-body text-on-surface-variant text-lg" style="">Your academic journey, choreographed.</p>
+</header>
+<!-- Auth Container -->
+<div class="w-full max-w-md">
+<!-- Tabs / Segmented Control -->
+<nav class="flex p-1.5 bg-surface-container-low rounded-full mb-10 shadow-sm">
+<button class="flex-1 py-3 px-6 rounded-full font-headline font-semibold text-sm transition-all bg-surface-container-lowest text-primary shadow-sm" style="">Sign in</button>
+<button class="flex-1 py-3 px-6 rounded-full font-headline font-semibold text-sm transition-all text-on-surface-variant hover:text-on-surface" style="">
+                    Create Account
+                </button>
+</nav>
+<!-- Login Form -->
+<form class="space-y-8" onsubmit="return false;">
+<!-- Email Input Group -->
+<div class="space-y-2">
+<label class="font-label text-xs font-medium text-on-surface-variant px-1 uppercase tracking-wider" for="email" style="">Gmail Address</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant group-focus-within:text-primary transition-colors" style="">alternate_email</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline-variant transition-all font-body" id="email" placeholder="yourname@gmail.com" required="" type="email">
+</div>
+<div class="flex items-center gap-2 px-1 text-on-secondary-fixed-variant/70">
+<span class="material-symbols-outlined text-sm" style="">verified_user</span>
+<span class="font-label text-[11px]" style="">Registration restricted to @gmail.com accounts only.</span>
+</div>
+</div>
+<!-- Password Input Group -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label text-xs font-medium text-on-surface-variant uppercase tracking-wider" for="password" style="">Password</label>
+<a class="font-label text-xs font-medium text-primary hover:underline" href="#" style="">Forgot Password?</a>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant group-focus-within:text-primary transition-colors" style="">lock</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline-variant transition-all font-body" id="password" placeholder="Enter your password" required="" type="password">
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+<button class="text-outline-variant hover:text-primary transition-colors" type="button" style="">
+<span class="material-symbols-outlined" style="">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full primary-gradient text-on-primary font-headline font-bold py-4 rounded-full shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2" type="submit" style="">
+                    Sign In to the Stream
+                    <span class="material-symbols-outlined text-lg" style="">arrow_forward</span>
+</button>
+</form>
+<!-- Social/Secondary Auth Divider -->
+<div class="mt-12 mb-8 flex items-center gap-4">
+<div class="flex-grow h-[1px] bg-surface-container-high"></div>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest font-bold" style="">Or continue with</span>
+<div class="flex-grow h-[1px] bg-surface-container-high"></div>
+</div>
+<!-- Social Buttons -->
+<div class="grid gap-4 flex justify-center">
+<button class="flex items-center justify-center gap-3 py-3 px-4 bg-surface-container-lowest border border-outline-variant/10 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 w-full max-w-xs border-primary/20 bg-primary/5 relative" style=""><span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-[10px] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter" style="">Recommended</span>
+<img alt="" class="w-5 h-5 grayscale opacity-70 group-hover:grayscale-0" data-alt="Google company logo icon representing oauth authentication option" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN2ye6SPWqfj0MuEiy4YONIsqzI2WrJSACFuY4efPOa8kBe2nF6DFMJUnvPolhftQLH3OXrjtHrtHNBWm7ayAvlGg-OPn-ZEYOpb7XEN8ipUMyKi4w-6dW9uihUH1qsFcdwGlzSXcLHzSBfAUrH7a2lhhYVpO6wK8wdEVWvSejVkZHsc0oDC2Ov5BQx5m3qdMKoVVs18N1B28u4Heyh5zkttNoAuf2RXymQOKR1Ur7q2eEYEpNI5qwbev_FKmnKAt9p3D7L9OHtAQ" style="">
+<span class="font-headline text-xs font-semibold text-on-surface-variant" style="">Google</span>
+</button>
+</div>
+</div>
+<!-- Footer Editorial Metadata -->
+<footer class="mt-20 text-center space-y-4 max-w-xs">
+<p class="font-label text-xs text-on-surface-variant leading-relaxed" style="">
+                By signing in, you agree to the 
+                <a class="text-primary hover:underline" href="#" style="">Scholarly Terms of Service</a> and 
+                <a class="text-primary hover:underline" href="#" style="">Privacy Charter</a>.
+            </p>
+<div class="flex justify-center gap-6 pt-4">
+<div class="flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container/20 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label text-[10px] font-bold text-on-secondary-fixed-variant" style="">System Status: Optimal</span>
+</div>
+</div>
+</footer>
+</main>
+<!-- Visual Anchor: Contextual Image Section for Large Screens -->
+<div class="hidden lg:block fixed top-0 right-0 w-1/3 h-full bg-surface-container-low overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="University campus vibe" class="w-full h-full object-cover opacity-80 mix-blend-overlay" data-alt="Modern university library architecture with sunlight streaming through large glass windows onto students studying in a minimalist scholarly environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVjnV6Ou26uyxWjgmIzU77oFTxQPrM12Jyy7fJzyYS5FfYWB5pmFbAJF78X3UTd9j2hf8-N_kxyw8MleohWf9hJfoNZDG4stlbHq46wr8QMb_E0kcmtl-9Dg-u0bnBKQtKwqjxrshKebA6hSUQpi30wxGwTISPubyY5WBPPwaCF57dFiG81b2hvIFGH73OuBg3U7OzhqZi9ssqTQLxOUQpBK5kId80XFFphVDNKHixh8TzOnIHko38RWBiZPN3OKMr1SF8XPvT8Fc" style="">
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-surface-container-low"></div>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-end p-12 text-on-surface">
+<h2 class="font-headline text-3xl font-bold mb-4" style="">Connect with your cohort in real-time.</h2>
+<p class="font-body text-lg text-on-surface-variant mb-8 max-w-sm" style="">A centralized stream for your lectures, campus events, and study groups.</p>
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="">hub</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="">diversity_3</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="">calendar_month</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>

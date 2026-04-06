@@ -1,0 +1,21 @@
+{
+  "short_name": "StudentConnect",
+  "name": "StudentConnect — Connecting Students, Empowering Education",
+  "description": "Your academic journey, choreographed. Real-time chat, profiles, and university tools for students.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e1a",
+  "theme_color": "#004ac6",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "social"],
+  "lang": "en"
+}

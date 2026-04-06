@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Management | StudentConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Manrope:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed-dim": "#4edea3",
+            "tertiary-container": "#cf2c30",
+            "surface-bright": "#f8f9fa",
+            "primary": "#004ac6",
+            "on-tertiary-container": "#ffecea",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e1e3e4",
+            "inverse-primary": "#b4c5ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "surface-container-high": "#e7e8e9",
+            "on-background": "#191c1d",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#b4c5ff",
+            "on-secondary-container": "#00714d",
+            "inverse-on-surface": "#f0f1f2",
+            "surface-container": "#edeeef",
+            "surface": "#f8f9fa",
+            "primary-container": "#2563eb",
+            "tertiary": "#ab0b1c",
+            "surface-container-highest": "#e1e3e4",
+            "on-tertiary-fixed": "#410004",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#dbe1ff",
+            "on-primary-fixed": "#00174b",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#005236",
+            "tertiary-fixed-dim": "#ffb3ad",
+            "inverse-surface": "#2e3132",
+            "outline-variant": "#c3c6d7",
+            "outline": "#737686",
+            "surface-tint": "#0053db",
+            "secondary-container": "#6cf8bb",
+            "surface-container-low": "#f3f4f5",
+            "on-error": "#ffffff",
+            "secondary": "#006c49",
+            "on-primary-container": "#eeefff",
+            "secondary-fixed": "#6ffbbe",
+            "on-tertiary-fixed-variant": "#930013",
+            "tertiary-fixed": "#ffdad7",
+            "on-surface": "#191c1d",
+            "on-surface-variant": "#434655",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-dim": "#d9dadb",
+            "background": "#f8f9fa"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Manrope', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-nav {
+      background: rgba(248, 249, 250, 0.7);
+      backdrop-filter: blur(20px);
+    }
+    .fluid-gradient {
+      background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+    }
+    .toggle-checkbox:checked {
+      right: 0;
+      background-color: #004ac6;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #dbe1ff;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-sm dark:shadow-none h-16">
+<div class="flex items-center justify-between px-6 h-full w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-xl font-semibold tracking-tight text-slate-900 font-headline">The Academic Pulse</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<span class="text-slate-500 font-medium cursor-pointer hover:text-blue-500 transition-colors">Home</span>
+<span class="text-slate-500 font-medium cursor-pointer hover:text-blue-500 transition-colors">Schedule</span>
+<span class="text-slate-500 font-medium cursor-pointer hover:text-blue-500 transition-colors">Pulse</span>
+<span class="text-blue-700 font-bold cursor-pointer">Settings</span>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="portrait of a focused university student wearing a casual sweater in a bright airy modern library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxq_V1JYjN7plHmLa2wnNgsp64MUJAc9sVFUrK1TOSjN466nb4L_cwnEiHpLROFMJ3Sg6Djro1_8Rl0zgfMIdVjA8Q9kzIDWMrfY-xIXgY7Q8asQqF80BA3y5g9Ef0Vj7WRxE0qZUCdHnD9VASVTM-V_aI4DnPacnWpd_EizRRWAoWI18NX4jvfnEVJyJ2mVdDBXZscl0gnOmQvbsdX4KsDiGft7W2JtI6KGEnX70BNS0faHxXPuFDyk6u7PD7cHasB3rO74vcNVY"/>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Header Section -->
+<section class="mb-12">
+<h2 class="text-4xl font-headline font-semibold text-on-surface mb-3 tracking-tight">Notifications</h2>
+<p class="text-on-surface-variant font-body leading-relaxed max-w-md">
+        Fine-tune your scholarly stream. Control how and when you receive updates across the StudentConnect ecosystem.
+      </p>
+</section>
+<!-- Master Toggle Card -->
+<section class="mb-10">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full fluid-gradient flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white" data-icon="notifications_active" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+</div>
+<div>
+<h3 class="font-headline font-semibold text-lg text-on-surface">All Notifications</h3>
+<p class="text-label-sm font-label text-on-surface-variant">Enable or disable all alerts globally</p>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-high appearance-none cursor-pointer checked:right-0 right-6 duration-200 ease-in-out" id="master-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-high cursor-pointer transition duration-200" for="master-toggle"></label>
+</div>
+</div>
+</section>
+<!-- Sectioned Settings -->
+<div class="space-y-12">
+<!-- Academic Updates Section -->
+<section>
+<h4 class="font-headline text-xl text-on-surface mb-6 px-1">Academic Updates</h4>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Item 1 -->
+<div class="p-6 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">Exams &amp; Deadlines</span>
+<span class="text-xs text-on-surface-variant font-label">Critical alerts for upcoming tests and submissions</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="acad-1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="acad-1"></label>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-6 flex items-center justify-between bg-surface-container-lowest/50">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">Schedule Changes</span>
+<span class="text-xs text-on-surface-variant font-label">Class cancellations or room modifications</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="acad-2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="acad-2"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Community Pulse Section -->
+<section>
+<h4 class="font-headline text-xl text-on-surface mb-6 px-1">Community Pulse</h4>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Item 1 -->
+<div class="p-6 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">Group Chats</span>
+<span class="text-xs text-on-surface-variant font-label">New messages in your study groups</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="comm-1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="comm-1"></label>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-6 flex items-center justify-between bg-surface-container-lowest/50">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">New Posts</span>
+<span class="text-xs text-on-surface-variant font-label">Activity from people you follow</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="comm-2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="comm-2"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- System Alerts Section -->
+<section>
+<h4 class="font-headline text-xl text-on-surface mb-6 px-1">System Alerts</h4>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Item 1 -->
+<div class="p-6 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">Security &amp; Privacy</span>
+<span class="text-xs text-on-surface-variant font-label">Account logins and privacy updates</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="sys-1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="sys-1"></label>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-6 flex items-center justify-between bg-surface-container-lowest/50">
+<div class="flex flex-col">
+<span class="font-body font-medium text-on-surface">App Improvements</span>
+<span class="text-xs text-on-surface-variant font-label">News about features and maintenance</span>
+</div>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer checked:right-0 right-5 duration-200 ease-in-out" id="sys-2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant/30 cursor-pointer transition duration-200" for="sys-2"></label>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Quiet Mode Callout (Bento-style Card) -->
+<section class="mt-16">
+<div class="relative overflow-hidden rounded-3xl bg-primary/5 p-8 border border-primary/10">
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
+<div class="flex-1">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/40 text-on-secondary-container text-xs font-semibold mb-4">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span>SMART FEATURE</span>
+</div>
+<h5 class="text-2xl font-headline font-semibold text-primary mb-2">Focus Mode</h5>
+<p class="text-sm font-body text-on-surface-variant leading-relaxed">
+              Automatically silence non-critical notifications during your scheduled library hours or exam sessions.
+            </p>
+</div>
+<button class="px-8 py-4 rounded-full fluid-gradient text-white font-semibold text-sm shadow-xl active:scale-95 transition-all">
+            Set Schedule
+          </button>
+</div>
+<!-- Decorative abstract background element -->
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.06)] z-50 rounded-t-3xl">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="text-[11px] font-medium font-label">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_today">calendar_today</span>
+<span class="text-[11px] font-medium font-label">Schedule</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-1">
+<span class="material-symbols-outlined mb-1" data-icon="bolt">bolt</span>
+<span class="text-[11px] font-medium font-label">Pulse</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-2xl px-5 py-1 active:scale-95 duration-150">
+<span class="material-symbols-outlined mb-1" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[11px] font-medium font-label">Settings</span>
+</div>
+</nav>
+</body></html>

@@ -87,8 +87,8 @@ const App = {
 
   saveToCache(data) {
     try {
-      // Save last 50 messages to local storage
-      const cacheData = data.slice(-50);
+      // Save last 200 messages to local storage for deep history
+      const cacheData = data.slice(-200);
       localStorage.setItem('studentconnect_chat_cache', JSON.stringify(cacheData));
     } catch (e) {
       console.warn("Failed to save to cache:", e);
@@ -233,7 +233,7 @@ const App = {
   async fetchMessages() {
     const { data, error } = await this.supabase
       .from('messages')
-      .select('*, profiles (full_name, avatar_url)')
+      .select('*, profiles (id, full_name, avatar_url)')
       .order('created_at', { ascending: true });
       
     if (error) {
@@ -243,28 +243,35 @@ const App = {
     
     const messagesContainer = document.getElementById('chat-messages');
     if (!messagesContainer) return;
-    messagesContainer.innerHTML = '';
+    
+    // ATOMIC UPDATE: Build in fragment first to prevent flickering/blank screen
+    const fragment = document.createDocumentFragment();
     
     if (data.length === 0) {
-       messagesContainer.innerHTML = `
-         <div class="empty-state" id="chat-empty-state">
+       const empty = document.createElement('div');
+       empty.className = 'empty-state';
+       empty.id = 'chat-empty-state';
+       empty.innerHTML = `
            <div class="empty-icon"><span class="material-symbols-outlined" style="font-size:32px">forum</span></div>
            <h3>No Messages Yet</h3>
-           <p>Start the conversation by sending a message below!</p>
-         </div>`;
-       return;
+           <p>Start the conversation by sending a message below!</p>`;
+       fragment.appendChild(empty);
+    } else {
+       // Determine last read
+       const lastRead = this.currentProfile?.last_read_at ? new Date(this.currentProfile.last_read_at) : new Date(0);
+       this.unreadCount = 0;
+       
+       data.forEach(msg => {
+          if (new Date(msg.created_at) > lastRead && msg.user_id !== this.currentUser?.id) {
+              this.unreadCount++;
+          }
+          this.renderMessage(msg, fragment);
+       });
     }
-    
-    // Determine last read
-    const lastRead = this.currentProfile?.last_read_at ? new Date(this.currentProfile.last_read_at) : new Date(0);
-    this.unreadCount = 0;
-    
-    data.forEach(msg => {
-       if (new Date(msg.created_at) > lastRead && msg.user_id !== this.currentUser?.id) {
-           this.unreadCount++;
-       }
-       this.renderMessage(msg);
-    });
+
+    // SWAP: Clear and update in one operation
+    messagesContainer.innerHTML = '';
+    messagesContainer.appendChild(fragment);
 
     // Update Cache
     this.saveToCache(data);
@@ -278,26 +285,31 @@ const App = {
     }
   },
   
-  renderMessage(msg) {
-     const emptyState = document.getElementById('chat-empty-state');
-     if (emptyState) emptyState.remove();
-     
-     const messagesContainer = document.getElementById('chat-messages');
-     const bodyContainer = document.getElementById('chat-body');
-     if (!messagesContainer || !bodyContainer) return;
-     
-     const isMine = this.currentUser && msg.user_id === this.currentUser.id;
-     
-     // Main wrapper
-     const wrapper = document.createElement('div');
-     wrapper.className = isMine ? 'message-with-avatar sent' : 'message-with-avatar received';
-     
-     // Avatar
-     const avatar = document.createElement('img');
-     avatar.className = 'chat-avatar';
-     const profileInfo = msg.profiles || { full_name: msg.sender_full_name, avatar_url: null };
-     avatar.src = profileInfo.avatar_url || 'assets/logo.png';
-     avatar.alt = profileInfo.full_name || 'Student';
+  renderMessage(msg, container = null) {
+      const emptyState = document.getElementById('chat-empty-state');
+      if (emptyState) emptyState.remove();
+      
+      const messagesContainer = container || document.getElementById('chat-messages');
+      const bodyContainer = document.getElementById('chat-body');
+      if (!messagesContainer || !bodyContainer) return;
+      
+      const isMine = this.currentUser && msg.user_id === this.currentUser.id;
+      
+      // Main wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = isMine ? 'message-with-avatar sent' : 'message-with-avatar received';
+      
+      // Avatar
+      const avatar = document.createElement('img');
+      avatar.className = 'chat-avatar';
+      
+      // Improved Profile Selection (Handles array or object)
+      let profileInfo = msg.profiles;
+      if (Array.isArray(profileInfo)) profileInfo = profileInfo[0];
+      if (!profileInfo) profileInfo = { full_name: msg.sender_full_name, avatar_url: null };
+      
+      avatar.src = profileInfo.avatar_url || 'assets/logo.png';
+      avatar.alt = profileInfo.full_name || 'Student';
      
      // Navigation on click
      avatar.addEventListener('click', () => {

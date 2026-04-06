@@ -259,17 +259,25 @@ const App = {
      avatar.addEventListener('click', () => {
        if (msg.user_id) this.viewUserProfile(msg.user_id);
      });
-     
-     const msgDiv = document.createElement('div');
-     msgDiv.className = isMine ? 'message message-sent' : 'message message-received';
-     
-     // Add sender name for received messages
-     if (!isMine && profileInfo.full_name) {
-       const senderName = document.createElement('div');
-       senderName.className = 'message-sender-name';
-       senderName.textContent = profileInfo.full_name;
-       msgDiv.appendChild(senderName);
-     }
+          const msgDiv = document.createElement('div');
+      msgDiv.className = isMine ? 'message message-sent' : 'message message-received';
+      
+      // Add sender name Above the Bubble
+      const senderName = document.createElement('div');
+      senderName.className = 'message-sender-name';
+      
+      // Handle Profile Data Joins (sometimes returned as array)
+      let nameToDisplay = 'Student';
+      if (profileInfo) {
+        if (Array.isArray(profileInfo)) {
+          nameToDisplay = profileInfo[0]?.full_name || msg.sender_full_name || 'Student';
+        } else {
+          nameToDisplay = profileInfo.full_name || msg.sender_full_name || 'Student';
+        }
+      }
+      
+      senderName.textContent = isMine ? 'You' : nameToDisplay;
+      msgDiv.appendChild(senderName);
      
      const bubble = document.createElement('div');
      bubble.className = 'message-bubble';

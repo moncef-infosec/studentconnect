@@ -74,12 +74,42 @@ const App = {
     await this.fetchOwnProfile();
     this.updateProfileUI();
     
-    // Load messages and start subscriptions
+    // Load cached messages instantly for a better UX on refresh
+    this.loadFromCache();
+    
+    // Then load fresh messages from the database
     await this.fetchMessages();
     this.subscribeToMessages();
     this.trackPresence();
     
     console.log("App ready for user:", user.email);
+  },
+
+  saveToCache(data) {
+    try {
+      // Save last 50 messages to local storage
+      const cacheData = data.slice(-50);
+      localStorage.setItem('studentconnect_chat_cache', JSON.stringify(cacheData));
+    } catch (e) {
+      console.warn("Failed to save to cache:", e);
+    }
+  },
+
+  loadFromCache() {
+    try {
+      const cached = localStorage.getItem('studentconnect_chat_cache');
+      if (cached) {
+        const data = JSON.parse(cached);
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) {
+          messagesContainer.innerHTML = '';
+          data.forEach(msg => this.renderMessage(msg));
+          console.log("Loaded from cache:", data.length, "messages");
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load from cache:", e);
+    }
   },
 
   async fetchOwnProfile() {
@@ -235,6 +265,9 @@ const App = {
        }
        this.renderMessage(msg);
     });
+
+    // Update Cache
+    this.saveToCache(data);
     
     if (this.currentScreen !== 'chat' && this.unreadCount > 0) {
       const badge = document.getElementById('chat-badge');

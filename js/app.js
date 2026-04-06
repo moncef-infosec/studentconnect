@@ -48,7 +48,7 @@ const App = {
       await this.fetchOwnProfile();
       this.updateProfileUI();
       this.navigate('home', false);
-      this.fetchMessages();
+      await this.fetchMessages();
       this.subscribeToMessages();
     } else {
       this.navigate('splash', false);
@@ -340,6 +340,10 @@ const App = {
     if (targetScreen === 'chat') {
       this.clearUnreadBadge();
       this.updateLastReadAt();
+      // Always reload messages from database when opening chat
+      if (this.supabase && this.currentUser) {
+        this.fetchMessages();
+      }
     }
     
     const currScreens = document.querySelectorAll('.screen');

@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="assets/logo.png"/>
-  <link rel="stylesheet" href="css/styles.css?v=1.2.0"/>
+  <link rel="stylesheet" href="css/styles.css?v=1.2.1"/>
   <style>
     #bottom-nav { display: none; }
     #bottom-nav.visible { display: flex; }
@@ -25,8 +25,8 @@
   <div class="splash-bg-orb bottom"></div>
   <div class="splash-header">
     <div class="splash-logo-wrap"><img alt="Logo" src="assets/logo.png"/></div>
-    <h1 class="splash-title">StudentConnect</h1>
-    <p class="splash-subtitle">Connecting Students, Empowering Education</p>
+    <h1 class="splash-title" data-i18n="app_name">StudentConnect</h1>
+    <p class="splash-subtitle" data-i18n="splash_subtitle">Connecting Students, Empowering Education</p>
   </div>
   <div class="splash-hero">
     <div class="splash-hero-card">
@@ -34,15 +34,15 @@
       <div class="splash-hero-overlay"></div>
       <div class="splash-hero-tag">
         <div class="splash-hero-tag-icon"><span class="material-symbols-outlined" style="font-size:20px">hub</span></div>
-        <div class="splash-hero-tag-text"><span>Community Hub</span><span>Active scholarly pulse</span></div>
+        <div class="splash-hero-tag-text"><span data-i18n="community_hub">Community Hub</span><span data-i18n="active_scholarly_pulse">Active scholarly pulse</span></div>
       </div>
     </div>
     <div class="splash-decor-1"></div>
     <div class="splash-decor-2"></div>
   </div>
   <div class="splash-actions">
-    <button id="splash-get-started" class="gradient-button btn-primary">Get Started</button>
-    <button id="splash-sign-in" class="btn-secondary">Sign In</button>
+    <button id="splash-get-started" class="gradient-button btn-primary" data-i18n="get_started">Get Started</button>
+    <button id="splash-sign-in" class="btn-secondary" data-i18n="sign_in">Sign In</button>
     <div class="splash-dots"><span class="dot-active"></span><span class="dot"></span><span class="dot"></span></div>
   </div>
 </section>
@@ -54,30 +54,30 @@
   <div class="auth-container">
     <div class="auth-header">
       <div class="auth-logo"><img alt="Logo" src="assets/logo.png"/></div>
-      <h1 class="auth-title font-headline">StudentConnect</h1>
-      <p class="auth-subtitle">Your academic journey, choreographed.</p>
+      <h1 class="auth-title font-headline" data-i18n="app_name">StudentConnect</h1>
+      <p class="auth-subtitle" data-i18n="auth_subtitle">Your academic journey, choreographed.</p>
     </div>
     <div class="auth-tabs">
-      <button id="tab-login" class="auth-tab active">Sign in</button>
-      <button id="tab-create" class="auth-tab">Create Account</button>
+      <button id="tab-login" class="auth-tab active" data-i18n="sign_in_tab">Sign in</button>
+      <button id="tab-create" class="auth-tab" data-i18n="create_account_tab">Create Account</button>
     </div>
     <form id="login-form" class="auth-form" onsubmit="return false;">
       <div id="login-message" class="auth-message"></div>
       <div class="field-group">
-        <label class="input-label" for="login-email">Gmail Address</label>
+        <label class="input-label" for="login-email" data-i18n="email_label">Gmail Address</label>
         <div class="input-group">
           <span class="material-symbols-outlined icon-left">alternate_email</span>
           <input id="login-email" class="pill-input has-icon-left" type="email" placeholder="yourname@gmail.com" required/>
         </div>
         <div class="field-hint">
           <span class="material-symbols-outlined" style="font-size:14px">verified_user</span>
-          <span>Registration restricted to @gmail.com accounts only.</span>
+          <span data-i18n="gmail_restriction">Registration restricted to @gmail.com accounts only.</span>
         </div>
       </div>
       <div class="field-group">
         <div class="field-header">
-          <label class="input-label" for="login-password" style="margin-bottom:0">Password</label>
-          <a href="#" class="forgot-link">Forgot Password?</a>
+          <label class="input-label" for="login-password" style="margin-bottom:0" data-i18n="password_label">Password</label>
+          <a href="#" class="forgot-link" data-i18n="forgot_password">Forgot Password?</a>
         </div>
         <div class="input-group">
           <span class="material-symbols-outlined icon-left">lock</span>
@@ -85,9 +85,9 @@
           <button type="button" class="icon-right toggle-password"><span class="material-symbols-outlined">visibility</span></button>
         </div>
       </div>
-      <button type="submit" class="gradient-button auth-submit">Sign In to the Stream <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+      <button type="submit" class="gradient-button auth-submit"><span data-i18n="submit_login">Sign In to the Stream</span> <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
     </form>
-    <div class="auth-divider"><div class="line"></div><span>Or continue with</span><div class="line"></div></div>
+    <div class="auth-divider"><div class="line"></div><span data-i18n="or_continue">Or continue with</span><div class="line"></div></div>
     <div style="display:flex;justify-content:center">
       <button class="google-btn" type="button">
         <span class="badge">Recommended</span>
@@ -96,8 +96,8 @@
       </button>
     </div>
     <footer class="auth-footer">
-      <p>By signing in, you agree to the <a href="#">Scholarly Terms of Service</a> and <a href="#">Privacy Charter</a>.</p>
-      <div class="status-chip"><span class="dot"></span><span>System Status: Optimal</span></div>
+      <p data-i18n="auth_footer_1">By signing in, you agree to the <a href="#" data-i18n="terms">Scholarly Terms of Service</a> and <a href="#" data-i18n="privacy">Privacy Charter</a>.</p>
+      <div class="status-chip"><span class="dot"></span><span data-i18n="system_optimal">System Status: Optimal</span></div>
     </footer>
   </div>
 </section>
@@ -118,7 +118,7 @@
   <div class="create-content">
     <div class="create-brand">
       <div class="create-brand-logo"><img alt="Logo" src="assets/logo.png"/></div>
-      <h1 class="font-headline">Create your scholarly profile.</h1>
+      <h1 class="font-headline" data-i18n="create_title">Create your scholarly profile.</h1>
       <div class="info-chip">
         <span class="material-symbols-outlined" style="font-size:14px;color:var(--secondary);font-variation-settings:'FILL' 1">info</span>
         <p>Only @gmail.com accounts are permitted.</p>
@@ -139,11 +139,11 @@
         <div class="create-or"><div class="line"></div><span>Or continue with</span><div class="line"></div></div>
         <button type="button" class="create-google">
           <svg width="24" height="24" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          <span>Sign up with Google</span>
+          <span data-i18n="google_signup">Sign up with Google</span>
         </button>
       </div>
     </form>
-    <p class="create-login-link">Already have an account? <a href="#" id="create-login-link">Log in</a></p>
+    <p class="create-login-link"><span data-i18n="already_have_account">Already have an account?</span> <a href="#" id="create-login-link" data-i18n="login">Log in</a></p>
   </div>
 </section>
 
@@ -156,14 +156,14 @@
   </div>
   <div class="home-content">
     <div class="bento-grid">
-      <div class="bento-card primary-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span><h3>Academic<br/>Feed</h3></div>
-      <div class="bento-card light-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">chat</span><h3>College<br/>Messages</h3></div>
+      <div class="bento-card primary-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span><h3 data-i18n="academic_feed">Academic<br/>Feed</h3></div>
+      <div class="bento-card light-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">chat</span><h3 data-i18n="college_messages">College<br/>Messages</h3></div>
     </div>
-    <div class="stream-section"><h2 class="font-headline">The Scholarly Stream</h2><p>Curated insights from your faculty</p></div>
+    <div class="stream-section"><h2 class="font-headline" data-i18n="scholarly_stream">The Scholarly Stream</h2><p data-i18n="faculty_insights">Curated insights from your faculty</p></div>
     <div class="empty-state">
       <div class="empty-state-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span></div>
-      <h3 class="font-headline">No updates yet</h3>
-      <p>Check back later for curated insights and research highlights from your faculty.</p>
+      <h3 class="font-headline" data-i18n="no_updates_title">No updates yet</h3>
+      <p data-i18n="no_updates_desc">Check back later for curated insights and research highlights from your faculty.</p>
     </div>
   </div>
 </section>
@@ -176,7 +176,7 @@
       <div class="chat-avatar"><img alt="Icon" src="assets/logo.png"/></div>
       <div class="chat-info">
         <h1 class="font-headline">Political Science – Batna</h1>
-        <p id="online-count"><span class="online-dot"></span> 0 students online</p>
+        <p id="online-count"><span class="online-dot"></span> <span data-i18n="students_online">0 students online</span></p>
       </div>
     </div>
     <div class="chat-topbar-right">
@@ -195,8 +195,8 @@
             <span class="material-symbols-outlined" style="font-size:56px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400">forum</span>
           </div>
         </div>
-        <h3 class="font-headline" style="font-size:1.5rem">No messages yet</h3>
-        <p>Start a conversation with your fellow Political Science students in Batna.</p>
+        <h3 class="font-headline" style="font-size:1.5rem" data-i18n="no_messages_title">No messages yet</h3>
+        <p data-i18n="chat_empty_desc">Start a conversation with your fellow Political Science students in Batna.</p>
       </div>
     </div>
   </div>
@@ -214,7 +214,7 @@
   <div class="top-bar">
     <div class="top-bar-left">
       <button style="background:none;border:none;cursor:pointer;color:var(--on-surface-variant)"><span class="material-symbols-outlined">menu</span></button>
-      <h1 style="color:var(--on-surface)">Alerts</h1>
+      <h1 style="color:var(--on-surface)" data-i18n="alerts_title">Alerts</h1>
     </div>
     <div class="top-bar-right">
       <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--surface-container-high)">
@@ -223,15 +223,15 @@
     </div>
   </div>
   <main style="padding-top:64px;flex:1;display:flex;flex-direction:column">
-    <div class="alerts-hero"><h2 class="font-headline">The Scholarly Stream</h2><p>Your academic pulse, choreographed to keep you informed without the noise.</p></div>
+    <div class="alerts-hero"><h2 class="font-headline" data-i18n="scholarly_stream">The Scholarly Stream</h2><p data-i18n="alerts_hero_desc">Your academic pulse, choreographed to keep you informed without the noise.</p></div>
     <div class="alerts-empty">
       <div class="alerts-empty-icon">
         <div class="bg-circle"></div>
         <div class="main-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">notifications_paused</span></div>
         <div class="sub-icon"><span class="material-symbols-outlined">auto_stories</span></div>
       </div>
-      <h3 class="font-headline">The Scholarly Stream is Quiet</h3>
-      <p>No notifications yet. We'll let you know when there's an academic update or a message from the college.</p>
+      <h3 class="font-headline" data-i18n="alerts_empty_title">The Scholarly Stream is Quiet</h3>
+      <p data-i18n="alerts_empty_desc">No notifications yet. We'll let you know when there's an academic update or a message from the college.</p>
     </div>
   </main>
   <button class="alerts-fab"><span class="material-symbols-outlined">notification_add</span></button>
@@ -253,12 +253,12 @@
       <h2 class="font-headline" id="profile-name">Student</h2>
       <p id="profile-email">student@batna-univ.dz</p>
     </div>
-    <p class="settings-section-title">General Settings</p>
+    <p class="settings-section-title" data-i18n="general_settings">General Settings</p>
     <div class="settings-group">
       <div class="settings-item">
         <div class="settings-item-left">
           <div class="settings-item-icon" style="background:rgba(0,74,198,0.1)"><span class="material-symbols-outlined" style="color:var(--primary)">dark_mode</span></div>
-          <div class="settings-item-text"><h4>Appearance</h4><p>Switch to Dark Mode</p></div>
+          <div class="settings-item-text"><h4 data-i18n="appearance">Appearance</h4><p data-i18n="dark_mode_desc">Switch to Dark Mode</p></div>
         </div>
         <label class="toggle-wrapper">
           <input type="checkbox" id="dark-mode-toggle"/>
@@ -268,37 +268,37 @@
       <button class="settings-item" id="settings-notifications">
         <div class="settings-item-left">
           <div class="settings-item-icon" style="background:rgba(0,108,73,0.1)"><span class="material-symbols-outlined" style="color:var(--secondary);font-variation-settings:'FILL' 1">notifications</span></div>
-          <div class="settings-item-text"><h4>Notifications</h4><p>Manage alerts and sounds</p></div>
+          <div class="settings-item-text"><h4 data-i18n="notifications">Notifications</h4><p data-i18n="notifications_desc">Manage alerts and sounds</p></div>
         </div>
         <span class="material-symbols-outlined chevron">chevron_right</span>
       </button>
       <button class="settings-item" id="settings-privacy">
         <div class="settings-item-left">
           <div class="settings-item-icon" style="background:rgba(171,11,28,0.1)"><span class="material-symbols-outlined" style="color:var(--tertiary);font-variation-settings:'FILL' 1">shield</span></div>
-          <div class="settings-item-text"><h4>Privacy & Security</h4><p>Account data and passwords</p></div>
+          <div class="settings-item-text"><h4 data-i18n="privacy_security">Privacy & Security</h4><p data-i18n="privacy_desc">Account data and passwords</p></div>
         </div>
         <span class="material-symbols-outlined chevron">chevron_right</span>
       </button>
       <button class="settings-item" id="settings-language">
         <div class="settings-item-left">
           <div class="settings-item-icon" style="background:rgba(0,74,198,0.1)"><span class="material-symbols-outlined" style="color:var(--primary)">language</span></div>
-          <div class="settings-item-text"><h4>Language</h4><p id="current-language-display">English, French, Arabic</p></div>
+          <div class="settings-item-text"><h4 data-i18n="language">Language</h4><p id="current-language-display" data-i18n="langs_list">English, French, Arabic</p></div>
         </div>
         <span class="material-symbols-outlined chevron">chevron_right</span>
       </button>
     </div>
-    <p class="settings-section-title">Academic Profile</p>
+    <p class="settings-section-title" data-i18n="academic_profile">Academic Profile</p>
     <div class="settings-group">
       <button class="settings-item" onclick="window.open('https://ead.univ-batna.dz/', '_blank')">
         <div class="settings-item-left">
           <div class="settings-item-icon" style="background:rgba(0,74,198,0.1)"><span class="material-symbols-outlined" style="color:var(--primary)">school</span></div>
-          <div class="settings-item-text"><h4>University Details</h4><p>University of Batna 1</p></div>
+          <div class="settings-item-text"><h4 data-i18n="university_details">University Details</h4><p data-i18n="uni_name">University of Batna 1</p></div>
         </div>
         <span class="material-symbols-outlined chevron">open_in_new</span>
       </button>
     </div>
-    <button class="settings-logout" id="settings-logout"><span class="material-symbols-outlined">logout</span>Logout from Device</button>
-    <div class="settings-version"><span>StudentConnect V1.2.0</span><small>© 2026 • Built and design and developed by Dark_lord-SEC<br>moncef-infosec</small></div>
+    <button class="settings-logout" id="settings-logout" data-i18n="logout_btn"><span class="material-symbols-outlined">logout</span>Logout from Device</button>
+    <div class="settings-version"><span>StudentConnect V1.2.1</span><small>© 2026 • Built and design and developed by Dark_lord-SEC<br>moncef-infosec</small></div>
   </div>
 </section>
 
@@ -311,38 +311,38 @@
     </div>
   </div>
   <div class="notif-content">
-    <div class="notif-header"><h2 class="font-headline">Notifications</h2><p class="font-body">Fine-tune your scholarly stream. Control how and when you receive updates.</p></div>
+    <div class="notif-header"><h2 class="font-headline" data-i18n="notifications">Notifications</h2><p class="font-body" data-i18n="notif_hero_desc">Fine-tune your scholarly stream. Control how and when you receive updates.</p></div>
     <div class="notif-master">
       <div class="notif-master-left">
         <div class="notif-master-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">notifications_active</span></div>
-        <div class="notif-master-text"><h3 class="font-headline">All Notifications</h3><p class="font-label">Enable or disable all alerts globally</p></div>
+        <div class="notif-master-text"><h3 class="font-headline" data-i18n="all_notifs">All Notifications</h3><p class="font-label" data-i18n="all_notifs_desc">Enable or disable all alerts globally</p></div>
       </div>
       <label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
     </div>
-    <div class="notif-section"><h4 class="font-headline">Academic Updates</h4>
+    <div class="notif-section"><h4 class="font-headline" data-i18n="academic_updates">Academic Updates</h4>
       <div class="card-low">
-        <div class="notif-item"><div class="notif-item-text"><span>Exams & Deadlines</span><span>Critical alerts for upcoming tests</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
-        <div class="notif-item"><div class="notif-item-text"><span>Schedule Changes</span><span>Class cancellations or room modifications</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="exams_deadlines">Exams & Deadlines</span><span data-i18n="exams_desc">Critical alerts for upcoming tests</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="schedule_changes">Schedule Changes</span><span data-i18n="schedule_desc">Class cancellations or room modifications</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
       </div>
     </div>
-    <div class="notif-section"><h4 class="font-headline">Community Pulse</h4>
+    <div class="notif-section"><h4 class="font-headline" data-i18n="community_pulse_section">Community Pulse</h4>
       <div class="card-low">
-        <div class="notif-item"><div class="notif-item-text"><span>Group Chats</span><span>New messages in your study groups</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
-        <div class="notif-item"><div class="notif-item-text"><span>New Posts</span><span>Activity from people you follow</span></div><label class="toggle-wrapper"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="group_chats_notif">Group Chats</span><span data-i18n="group_chats_desc">New messages in your study groups</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="new_posts_notif">New Posts</span><span data-i18n="new_posts_desc">Activity from people you follow</span></div><label class="toggle-wrapper"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
       </div>
     </div>
-    <div class="notif-section"><h4 class="font-headline">System Alerts</h4>
+    <div class="notif-section"><h4 class="font-headline" data-i18n="system_alerts">System Alerts</h4>
       <div class="card-low">
-        <div class="notif-item"><div class="notif-item-text"><span>Security & Privacy</span><span>Account logins and privacy updates</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
-        <div class="notif-item"><div class="notif-item-text"><span>App Improvements</span><span>News about features and maintenance</span></div><label class="toggle-wrapper"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="security_privacy_notif">Security & Privacy</span><span data-i18n="security_notif_desc">Account logins and privacy updates</span></div><label class="toggle-wrapper"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        <div class="notif-item"><div class="notif-item-text"><span data-i18n="app_improvements">App Improvements</span><span data-i18n="app_news_desc">News about features and maintenance</span></div><label class="toggle-wrapper"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
       </div>
     </div>
     <div class="focus-card">
       <div class="focus-card-inner">
-        <div class="chip font-label"><span class="material-symbols-outlined" style="font-size:14px">auto_awesome</span><span>SMART FEATURE</span></div>
-        <h5 class="font-headline">Focus Mode</h5>
-        <p>Automatically silence non-critical notifications during your scheduled library hours or exam sessions.</p>
-        <button class="set-btn">Set Schedule</button>
+        <div class="chip font-label"><span class="material-symbols-outlined" style="font-size:14px">auto_awesome</span><span data-i18n="smart_feature">SMART FEATURE</span></div>
+        <h5 class="font-headline" data-i18n="focus_mode">Focus Mode</h5>
+        <p data-i18n="focus_mode_desc">Automatically silence non-critical notifications during your scheduled library hours or exam sessions.</p>
+        <button class="set-btn" data-i18n="set_schedule">Set Schedule</button>
       </div>
       <div class="decor-orb"></div>
     </div>
@@ -360,38 +360,38 @@
   <div class="privacy-content">
     <div class="privacy-hero">
       <div class="chip font-label"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">shield</span><span>SECURE CORE</span></div>
-      <h2 class="font-headline">Privacy & Security</h2>
-      <p>Manage your digital presence and safeguard your academic identity with StudentConnect's advanced encryption standards.</p>
+      <h2 class="font-headline" data-i18n="privacy_security">Privacy & Security</h2>
+      <p data-i18n="privacy_hero_desc">Manage your digital presence and safeguard your academic identity with StudentConnect's advanced encryption standards.</p>
     </div>
     <div class="privacy-sections">
       <div class="privacy-security-card">
-        <div class="card-header"><span class="material-symbols-outlined" style="color:var(--primary);font-variation-settings:'FILL' 1">lock</span><h3 class="font-headline">Security</h3></div>
+        <div class="card-header"><span class="material-symbols-outlined" style="color:var(--primary);font-variation-settings:'FILL' 1">lock</span><h3 class="font-headline" data-i18n="security">Security</h3></div>
         <button class="privacy-link-item" id="privacy-change-password">
           <div class="privacy-link-item-left">
             <div class="icon-box"><span class="material-symbols-outlined">password</span></div>
-            <div><h4>Change Password</h4><p>Update your login credentials regularly</p></div>
+            <div><h4 data-i18n="change_password">Change Password</h4><p data-i18n="update_creds">Update your login credentials regularly</p></div>
           </div>
           <span class="material-symbols-outlined chevron">chevron_right</span>
         </button>
       </div>
       <div class="encryption-card">
         <div style="position:relative;z-index:10">
-          <h4 class="font-headline">Encryption Status</h4>
-          <div class="status"><span class="dot"></span>End-to-end active</div>
-          <p>Your academic transcripts and private messages are encrypted using AES-256 protocols.</p>
+          <h4 class="font-headline" data-i18n="encryption_status">Encryption Status</h4>
+          <div class="status"><span class="dot"></span><span data-i18n="e2e_active">End-to-end active</span></div>
+          <p data-i18n="encryption_desc">Your academic transcripts and private messages are encrypted using AES-256 protocols.</p>
         </div>
         <span class="material-symbols-outlined watermark" style="font-variation-settings:'wght' 100">verified_user</span>
       </div>
       <div class="danger-card">
-        <div class="card-header"><span class="material-symbols-outlined" style="color:var(--error);font-variation-settings:'FILL' 1">warning</span><h3 class="font-headline">Privacy & Safety</h3></div>
-        <p class="zone-title">Danger Zone</p>
+        <div class="card-header"><span class="material-symbols-outlined" style="color:var(--error);font-variation-settings:'FILL' 1">warning</span><h3 class="font-headline" data-i18n="privacy_safety">Privacy & Safety</h3></div>
+        <p class="zone-title" data-i18n="danger_zone">Danger Zone</p>
         <button class="danger-btn">
-          <div class="danger-btn-left"><span class="material-symbols-outlined" style="color:var(--error)">delete_forever</span><span>Account Deletion</span></div>
+          <div class="danger-btn-left"><span class="material-symbols-outlined" style="color:var(--error)">delete_forever</span><span data-i18n="account_deletion">Account Deletion</span></div>
           <span class="material-symbols-outlined warn-icon">warning</span>
         </button>
         <p class="danger-note">Deleting your account is permanent. All course data and pulse history will be purged within 30 days.</p>
       </div>
-      <div class="privacy-editorial"><h4 class="font-headline">Why Privacy Matters?</h4><p>At StudentConnect, your academic journey is personal. We never sell your data to third-party recruiters without your explicit consent. <a href="#">Read Policy →</a></p></div>
+      <div class="privacy-editorial"><h4 class="font-headline" data-i18n="why_privacy">Why Privacy Matters?</h4><p data-i18n="privacy_note">At StudentConnect, your academic journey is personal. We never sell your data to third-party recruiters without your explicit consent. <a href="#" data-i18n="read_policy">Read Policy →</a></p></div>
     </div>
   </div>
 </section>
@@ -405,13 +405,13 @@
     </div>
   </div>
   <div class="password-content">
-    <div class="password-hero"><h2 class="font-headline">Change Password</h2><p>Ensure your account remains secure by choosing a strong, unique password.</p></div>
+    <div class="password-hero"><h2 class="font-headline" data-i18n="change_password">Change Password</h2><p data-i18n="password_hero_desc">Ensure your account remains secure by choosing a strong, unique password.</p></div>
     <div class="password-form-card">
       <form class="password-form" onsubmit="return false;">
-        <div class="password-field"><label class="field-label">Current Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><button type="button" class="icon-right toggle-password"><span class="material-symbols-outlined">visibility</span></button></div></div>
-        <div class="password-field"><label class="field-label">New Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><span class="material-symbols-outlined icon-right" style="pointer-events:none">lock</span></div><div class="strength-bar"><span class="bar filled"></span><span class="bar filled"></span><span class="bar empty"></span><span class="label font-label">Moderate Strength</span></div></div>
-        <div class="password-field"><label class="field-label">Confirm New Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><span class="material-symbols-outlined icon-right" style="pointer-events:none">check_circle</span></div></div>
-        <button type="submit" class="gradient-button password-submit">Update Password <span class="material-symbols-outlined">arrow_forward</span></button>
+        <div class="password-field"><label class="field-label" data-i18n="current_password">Current Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><button type="button" class="icon-right toggle-password"><span class="material-symbols-outlined">visibility</span></button></div></div>
+        <div class="password-field"><label class="field-label" data-i18n="new_password">New Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><span class="material-symbols-outlined icon-right" style="pointer-events:none">lock</span></div><div class="strength-bar"><span class="bar filled"></span><span class="bar filled"></span><span class="bar empty"></span><span class="label font-label" data-i18n="moderate_strength">Moderate Strength</span></div></div>
+        <div class="password-field"><label class="field-label" data-i18n="confirm_password">Confirm New Password</label><div class="input-group"><input class="pill-input has-icon-right" type="password" placeholder="••••••••"/><span class="material-symbols-outlined icon-right" style="pointer-events:none">check_circle</span></div></div>
+        <button type="submit" class="gradient-button password-submit"><span data-i18n="update_password">Update Password</span> <span class="material-symbols-outlined">arrow_forward</span></button>
       </form>
     </div>
     <div class="password-footer"><div class="line"></div><span class="font-headline">STUDENTCONNECT 2024</span><div class="line"></div></div>
@@ -428,8 +428,8 @@
   </div>
   <div class="language-content">
     <div class="language-header">
-      <h2 class="font-headline">Choose Language</h2>
-      <p class="font-body">Select your preferred scholarly language for the StudentConnect experience.</p>
+      <h2 class="font-headline" data-i18n="choose_lang">Choose Language</h2>
+      <p class="font-body" data-i18n="choose_lang_desc">Select your preferred scholarly language for the StudentConnect experience.</p>
     </div>
     <div class="language-list">
       <button class="language-option active" data-lang="en">
@@ -459,13 +459,13 @@
 
 <!-- BOTTOM NAV -->
 <nav id="bottom-nav" class="bottom-nav">
-  <button class="nav-item" data-nav="home"><span class="material-symbols-outlined">home</span><span>Home</span></button>
+  <button class="nav-item" data-nav="home"><span class="material-symbols-outlined">home</span><span data-i18n="nav_home">Home</span></button>
   <button class="nav-item" data-nav="chat" style="position:relative;">
-    <span class="material-symbols-outlined">forum</span><span>Chat</span>
+    <span class="material-symbols-outlined">forum</span><span data-i18n="nav_chat">Chat</span>
     <span class="nav-badge" id="chat-badge" style="display:none;">0</span>
   </button>
-  <button class="nav-item" data-nav="alerts"><span class="material-symbols-outlined">notifications</span><span>Alerts</span></button>
-  <button class="nav-item" data-nav="settings"><span class="material-symbols-outlined">settings</span><span>Settings</span></button>
+  <button class="nav-item" data-nav="alerts"><span class="material-symbols-outlined">notifications</span><span data-i18n="nav_alerts">Alerts</span></button>
+  <button class="nav-item" data-nav="settings"><span class="material-symbols-outlined">settings</span><span data-i18n="nav_settings">Settings</span></button>
 </nav>
 
 <!-- SCREEN 11: USER PROFILE -->
@@ -473,7 +473,7 @@
   <div class="top-bar">
     <div class="top-bar-left">
       <button class="back-btn" data-action="back"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1>Student Profile</h1>
+      <h1 data-i18n="student_profile">Student Profile</h1>
     </div>
   </div>
   <div class="settings-content" style="padding-top: 48px; display: flex; flex-direction: column; align-items: center; text-align: center;">
@@ -485,7 +485,7 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/app.js?v=1.2.0"></script>
+<script src="js/app.js?v=1.2.1"></script>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

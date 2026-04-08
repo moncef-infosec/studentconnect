@@ -1345,3 +1345,113 @@ body {
   text-align: right;
   direction: rtl;
 }
+
+/* ============================================
+   RTL & ARABIC SUPPORT
+   ============================================ */
+[dir="rtl"] {
+  font-family: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+  text-align: right;
+}
+
+[dir="rtl"] .font-headline, 
+[dir="rtl"] .font-display,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Mirroring Navigation Icons */
+[dir="rtl"] .material-symbols-outlined {
+  display: inline-block;
+}
+
+[dir="rtl"] .back-btn span,
+[dir="rtl"] .chevron,
+[dir="rtl"] .icon-right,
+[dir="rtl"] .nav-item .material-symbols-outlined[data-mirror="true"],
+[dir="rtl"] .material-symbols-outlined:matches(arrow_back, arrow_forward, chevron_right, chevron_left, open_in_new, logout, send) {
+  transform: scaleX(-1);
+}
+
+/* Adjusting Settings & Lists */
+[dir="rtl"] .settings-item-left,
+[dir="rtl"] .notif-master-left,
+[dir="rtl"] .privacy-link-item-left,
+[dir="rtl"] .danger-btn-left {
+  flex-direction: row;
+}
+
+[dir="rtl"] .settings-item-icon,
+[dir="rtl"] .notif-master-icon,
+[dir="rtl"] .icon-box {
+  margin-right: 0;
+  margin-left: 16px;
+}
+
+[dir="rtl"] .settings-item-text,
+[dir="rtl"] .notif-master-text {
+  text-align: right;
+}
+
+[dir="rtl"] .toggle-wrapper {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Auth Screens */
+[dir="rtl"] .auth-form .icon-left {
+  left: auto;
+  right: 16px;
+}
+
+[dir="rtl"] .auth-form .pill-input.has-icon-left {
+  padding-left: 16px;
+  padding-right: 48px;
+}
+
+[dir="rtl"] .auth-form .icon-right,
+[dir="rtl"] .auth-form .toggle-password {
+  right: auto;
+  left: 16px;
+}
+
+/* Chat Bubbles */
+[dir="rtl"] .chat-message {
+  flex-direction: row;
+}
+
+[dir="rtl"] .message-content {
+  border-radius: 20px 20px 4px 20px;
+}
+
+[dir="rtl"] .message-own {
+  flex-direction: row;
+}
+
+[dir="rtl"] .message-own .message-content {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: 20px 20px 20px 4px;
+}
+
+/* Splash Fixes */
+[dir="rtl"] .splash-hero-tag {
+  left: auto;
+  right: 24px;
+}
+
+[dir="rtl"] .splash-hero-tag-icon {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+/* Search Bar & Inputs */
+[dir="rtl"] .pill-input.has-icon-left {
+  padding-left: 16px;
+  padding-right: 48px;
+}
+
+[dir="rtl"] .pill-input.has-icon-right {
+  padding-right: 16px;
+  padding-left: 48px;
+}

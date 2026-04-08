@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studentconnect-v1.1.4';
+const CACHE_NAME = 'studentconnect-v1.2.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -63,6 +63,23 @@ self.addEventListener('fetch', event => {
         }
         return netResponse;
       });
+    })
+  );
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+      if (clientList.length > 0) {
+        let client = clientList[0];
+        for (let c of clientList) {
+          if (c.focused) client = c;
+        }
+        return client.focus();
+      }
+      return clients.openWindow('./');
     })
   );
 });

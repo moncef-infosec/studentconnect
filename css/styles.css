@@ -1258,3 +1258,90 @@ body {
 @media (min-width: 768px) {
   .create-form .password-row { grid-template-columns: 1fr 1fr; }
 }
+
+/* ============================================
+   SCREEN 9: Language Selection
+   ============================================ */
+.language-content {
+  padding: 24px;
+  max-width: 512px;
+  margin: 0 auto;
+}
+
+.language-header {
+  margin-bottom: 32px;
+}
+
+.language-header h2 {
+  color: var(--on-surface);
+  margin-bottom: 8px;
+}
+
+.language-header p {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.language-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--surface-container-low);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.language-option:hover {
+  background: var(--surface-container-high);
+}
+
+.language-option.active {
+  background: var(--surface-container-lowest);
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0,74,198,0.1);
+}
+
+.lang-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lang-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--on-surface);
+}
+
+.lang-native {
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+}
+
+.language-option .check {
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.language-option.active .check {
+  opacity: 1;
+}
+
+/* Arabic Specific RTL support for the list if needed */
+[data-lang="ar"] .lang-info {
+  text-align: right;
+  direction: rtl;
+}

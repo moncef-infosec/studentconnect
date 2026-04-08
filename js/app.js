@@ -18,6 +18,7 @@ const App = {
     privacy: { nav: false },
     password: { nav: false },
     'user-profile': { nav: false },
+    language: { nav: false },
   },
 
   supabase: null,
@@ -31,6 +32,7 @@ const App = {
 
   async init() {
     this.initDarkMode();
+    this.initLanguage();
     this.bindEvents();
     await this.initSupabase();
   },
@@ -60,29 +62,48 @@ const App = {
       this.currentUser = session ? session.user : null;
       
       if (this.currentUser) {
-        if (!this.isReady || event === 'SIGNED_IN') {
+        // Fix for Redirect/Sign-In Navigation:
+        if (event === 'SIGNED_IN' || (event === 'INITIAL_SESSION' && (this.currentScreen === 'splash' || this.currentScreen === 'login' || this.currentScreen === 'create'))) {
+          console.log("Navigating home from", this.currentScreen, "on", event);
+          this.navigate('home');
+        }
+
+        if (!this.isReady || event === 'SIGNED_IN' || event === 'USER_UPDATED') {
           await this.onUserReady(this.currentUser);
         }
       } else {
         this.isReady = false;
+        // Auto-redirect to splash on logout
+        if (this.currentScreen && !['splash', 'login', 'create'].includes(this.currentScreen)) {
+          this.navigate('splash');
+        }
       }
     });
   },
 
   async onUserReady(user) {
     this.isReady = true;
+    
+    // Clean up URL after successful redirect login
+    if (window.location.hash.includes('access_token')) {
+      window.history.replaceState('', document.title, window.location.pathname + window.location.search);
+    }
+
+    // CRITICAL: Ensure profile exists before proceeding
+    // This allows message insertion which requires a profile FK.
     await this.fetchOwnProfile();
     this.updateProfileUI();
     
-    // Load cached messages instantly for a better UX on refresh
+    // UI logic: Load cache instantly
     this.loadFromCache();
     
-    // Then load fresh messages from the database
-    await this.fetchMessages();
+    // Database logic: Refresh and listen
+    this.fetchMessages(); 
     this.subscribeToMessages();
     this.trackPresence();
+    this.requestNotificationPermission();
     
-    console.log("App ready for user:", user.email);
+    console.log("App ready for User ID:", user.id);
   },
 
   saveToCache(data) {
@@ -114,11 +135,27 @@ const App = {
 
   async fetchOwnProfile() {
     if (!this.currentUser) return;
-    const { data } = await this.supabase.from('profiles').select('*').eq('id', this.currentUser.id).single();
-    if (data) {
-      this.currentProfile = data;
+    
+    const profileData = {
+      id: this.currentUser.id,
+      full_name: this.currentUser.user_metadata?.full_name || this.currentUser.email.split('@')[0],
+      avatar_url: this.currentUser.user_metadata?.avatar_url || null
+    };
+
+    // Use UPSERT to handle both new and existing users correctly.
+    // This fixes the "Failed to send message" error caused by missing Foreign Keys.
+    const { data, error } = await this.supabase
+      .from('profiles')
+      .upsert(profileData)
+      .select()
+      .single();
+
+    if (error) {
+      console.warn("Profile sync error:", error);
+      // Fallback: use memory data if DB fails
+      this.currentProfile = profileData;
     } else {
-      this.currentProfile = { full_name: this.currentUser.user_metadata?.full_name || 'Student', avatar_url: null };
+      this.currentProfile = data;
     }
   },
 
@@ -229,22 +266,68 @@ const App = {
     setTimeout(() => toast.classList.remove('show'), 5000);
   },
 
+  // ---- System Notifications ----
+  async requestNotificationPermission() {
+    if (!('Notification' in window)) return;
+    
+    if (Notification.permission === 'default') {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log("Notification permission granted!");
+      }
+    }
+  },
+
+  async showSystemNotification(msg, profileInfo) {
+    if (Notification.permission !== 'granted') return;
+    
+    const name = profileInfo?.full_name || 'Student';
+    const body = msg.text;
+    const icon = profileInfo?.avatar_url || 'assets/logo.png';
+    const tag = 'studentconnect-msg'; // Replaces old message with new one on same tag
+
+    // Using Service Worker is more reliable for mobile phone notifications
+    if ('serviceWorker' in navigator) {
+      const reg = await navigator.serviceWorker.ready;
+      reg.showNotification(name, {
+        body: body,
+        icon: icon,
+        badge: 'assets/logo.png',
+        tag: tag,
+        vibrate: [100, 50, 100],
+        data: { url: window.location.origin + window.location.pathname + '#chat' }
+      });
+    } else {
+      // Fallback to basic API
+      new Notification(name, { body, icon, tag });
+    }
+  },
+
   // ---- Chat ----
   async fetchMessages() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+    
+    // Visual feedback that we're loading fresh data
+    messagesContainer.style.opacity = '0.7';
+    
     const { data, error } = await this.supabase
       .from('messages')
       .select('*, profiles (id, full_name, avatar_url)')
       .order('created_at', { ascending: true });
       
+    messagesContainer.style.opacity = '1';
+
     if (error) {
       console.error('Error fetching messages:', error);
+      // If we have cached messages, keep them. Otherwise show error.
+      if (messagesContainer.children.length === 0) {
+        messagesContainer.innerHTML = `<div class="empty-state"><h3>Connection Error</h3><p>Could not load history. Please check your internet.</p></div>`;
+      }
       return;
     }
     
-    const messagesContainer = document.getElementById('chat-messages');
-    if (!messagesContainer) return;
-    
-    // ATOMIC UPDATE: Build in fragment first to prevent flickering/blank screen
+    // ATOMIC UPDATE: Build in fragment first to prevent flickering
     const fragment = document.createDocumentFragment();
     
     if (data.length === 0) {
@@ -275,6 +358,10 @@ const App = {
 
     // Update Cache
     this.saveToCache(data);
+
+    // Scroll to bottom after batch update
+    const bodyContainer = document.getElementById('chat-body');
+    if (bodyContainer) bodyContainer.scrollTop = bodyContainer.scrollHeight;
     
     if (this.currentScreen !== 'chat' && this.unreadCount > 0) {
       const badge = document.getElementById('chat-badge');
@@ -356,7 +443,7 @@ const App = {
      }
      
      messagesContainer.appendChild(wrapper);
-     bodyContainer.scrollTop = bodyContainer.scrollHeight;
+     // Scroll happens in fetchMessages (batch) or subscribeToMessages (individual)
   },
 
   subscribeToMessages() {
@@ -373,9 +460,18 @@ const App = {
         
         this.renderMessage(msg);
         
+        // Scroll to bottom for new real-time message
+        const bodyContainer = document.getElementById('chat-body');
+        if (bodyContainer) bodyContainer.scrollTop = bodyContainer.scrollHeight;
+        
         if (this.currentScreen !== 'chat' && msg.user_id !== this.currentUser?.id) {
           this.incrementUnreadBadge();
           this.showToast(msg, msg.profiles);
+          
+          // Trigger system notification if screen is hidden or user is elsewhere
+          if (document.visibilityState === 'hidden' || this.currentScreen !== 'chat') {
+            this.showSystemNotification(msg, msg.profiles);
+          }
         } else if (this.currentScreen === 'chat') {
           this.updateLastReadAt();
         }
@@ -393,7 +489,7 @@ const App = {
 
     input.value = '';
 
-    const fullName = this.currentUser.user_metadata?.full_name || 'Student';
+    const fullName = this.currentProfile?.full_name || this.currentUser.user_metadata?.full_name || 'Student';
 
     const { error } = await this.supabase
       .from('messages')
@@ -405,7 +501,7 @@ const App = {
       
     if (error) {
       console.error('Error sending message:', error);
-      alert('Failed to send message.');
+      alert(`Failed to send message: ${error.message || 'Database error'}`);
     }
   },
 
@@ -427,6 +523,37 @@ const App = {
     const toggle = document.getElementById('dark-mode-toggle');
     if (toggle) toggle.checked = enabled;
     if (save) localStorage.setItem('sc-dark-mode', enabled);
+  },
+
+  // ---- Language Selection ----
+  initLanguage() {
+    const saved = localStorage.getItem('sc-language') || 'en';
+    this.setLanguage(saved, false);
+  },
+
+  setLanguage(lang, save = true) {
+    const languages = {
+      'en': 'English',
+      'fr': 'Français',
+      'ar': 'العربية'
+    };
+
+    // Update UI active state in selection screen
+    document.querySelectorAll('.language-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.lang === lang);
+    });
+
+    // Update Subtitle in Settings
+    const displayEl = document.getElementById('current-language-display');
+    if (displayEl) {
+      displayEl.textContent = languages[lang] || 'English';
+    }
+
+    if (save) {
+      localStorage.setItem('sc-language', lang);
+    }
+
+    console.log("Language set to:", lang);
   },
 
   // ---- Navigation ----
@@ -730,6 +857,19 @@ const App = {
           input.type = 'password';
           icon.textContent = 'visibility';
         }
+      });
+    });
+
+    // Language Selection Navigation
+    document.getElementById('settings-language')?.addEventListener('click', () => {
+      this.navigate('language');
+    });
+
+    // Language Option Selection
+    document.querySelectorAll('.language-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        this.setLanguage(lang);
       });
     });
 

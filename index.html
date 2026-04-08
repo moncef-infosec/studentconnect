@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="assets/logo.png"/>
-  <link rel="stylesheet" href="css/styles.css?v=1.1.4"/>
+  <link rel="stylesheet" href="css/styles.css?v=1.2.0"/>
   <style>
     #bottom-nav { display: none; }
     #bottom-nav.visible { display: flex; }
@@ -279,6 +279,13 @@
         </div>
         <span class="material-symbols-outlined chevron">chevron_right</span>
       </button>
+      <button class="settings-item" id="settings-language">
+        <div class="settings-item-left">
+          <div class="settings-item-icon" style="background:rgba(0,74,198,0.1)"><span class="material-symbols-outlined" style="color:var(--primary)">language</span></div>
+          <div class="settings-item-text"><h4>Language</h4><p id="current-language-display">English, French, Arabic</p></div>
+        </div>
+        <span class="material-symbols-outlined chevron">chevron_right</span>
+      </button>
     </div>
     <p class="settings-section-title">Academic Profile</p>
     <div class="settings-group">
@@ -291,7 +298,7 @@
       </button>
     </div>
     <button class="settings-logout" id="settings-logout"><span class="material-symbols-outlined">logout</span>Logout from Device</button>
-    <div class="settings-version"><span>StudentConnect V1.1.4</span><small>© 2026 • Built and design and developed by Dark_lord-SEC<br>moncef-infosec</small></div>
+    <div class="settings-version"><span>StudentConnect V1.2.0</span><small>© 2026 • Built and design and developed by Dark_lord-SEC<br>moncef-infosec</small></div>
   </div>
 </section>
 
@@ -411,6 +418,45 @@
   </div>
 </section>
 
+<!-- SCREEN 9: LANGUAGE SELECTION -->
+<section id="language-screen" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <button class="back-btn" data-action="back"><span class="material-symbols-outlined">arrow_back</span></button>
+      <h1 style="color:var(--on-surface)">Language</h1>
+    </div>
+  </div>
+  <div class="language-content">
+    <div class="language-header">
+      <h2 class="font-headline">Choose Language</h2>
+      <p class="font-body">Select your preferred scholarly language for the StudentConnect experience.</p>
+    </div>
+    <div class="language-list">
+      <button class="language-option active" data-lang="en">
+        <div class="lang-info">
+          <span class="lang-name">English</span>
+          <span class="lang-native">English</span>
+        </div>
+        <span class="material-symbols-outlined check">check_circle</span>
+      </button>
+      <button class="language-option" data-lang="fr">
+        <div class="lang-info">
+          <span class="lang-name">French</span>
+          <span class="lang-native">Français</span>
+        </div>
+        <span class="material-symbols-outlined check">check_circle</span>
+      </button>
+      <button class="language-option" data-lang="ar">
+        <div class="lang-info">
+          <span class="lang-name">Arabic</span>
+          <span class="lang-native">العربية</span>
+        </div>
+        <span class="material-symbols-outlined check">check_circle</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 <!-- BOTTOM NAV -->
 <nav id="bottom-nav" class="bottom-nav">
   <button class="nav-item" data-nav="home"><span class="material-symbols-outlined">home</span><span>Home</span></button>
@@ -439,7 +485,7 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/app.js?v=1.1.4"></script>
+<script src="js/app.js?v=1.2.0"></script>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

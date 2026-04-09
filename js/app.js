@@ -368,6 +368,24 @@ const App = {
         badge.style.display = 'flex';
       }
     }
+
+    // Ensure we start at the latest message
+    this.scrollToBottom();
+  },
+
+  scrollToBottom() {
+    const body = document.getElementById('chat-body');
+    if (!body) return;
+    
+    // Smooth scroll to the bottom
+    // In column-reverse, scrollHeight - clientHeight is the top position
+    // but the most cross-browser way is scrollIntoView on the last child
+    const messages = document.getElementById('chat-messages');
+    if (messages && messages.lastElementChild) {
+      messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    } else {
+      body.scrollTop = body.scrollHeight;
+    }
   },
   
   renderMessage(msg, container = null) {
@@ -440,8 +458,8 @@ const App = {
        wrapper.appendChild(msgDiv);
      }
      
-     // PREPEND for column-reverse layout
-     messagesContainer.prepend(wrapper);
+     // APPEND for normal DOM order (parent handles visual inversion)
+     messagesContainer.appendChild(wrapper);
   },
 
   subscribeToMessages() {
@@ -468,6 +486,7 @@ const App = {
           }
         } else if (this.currentScreen === 'chat') {
           this.updateLastReadAt();
+          this.scrollToBottom();
         }
       })
       .subscribe();
@@ -891,17 +910,23 @@ const App = {
   navigate(targetScreen, pushHistory = true) {
     if (!this.screens[targetScreen]) return;
     
-    // Unread Tracker Update
+    // Store current screen in history before updating
+    if (pushHistory && this.currentScreen && this.currentScreen !== targetScreen) {
+      this.history.push(this.currentScreen);
+    }
+    
     this.currentScreen = targetScreen;
+    
+    // Chat-specific logic
     if (targetScreen === 'chat') {
       this.clearUnreadBadge();
       this.updateLastReadAt();
-      // Always reload messages from database when opening chat
       if (this.supabase && this.currentUser) {
         this.fetchMessages();
       }
     }
     
+    // Switch visibility
     const currScreens = document.querySelectorAll('.screen');
     currScreens.forEach(s => {
       s.classList.remove('active');
@@ -912,10 +937,6 @@ const App = {
     if (target) {
       target.style.display = 'block';
       setTimeout(() => target.classList.add('active'), 10);
-    }
-
-    if (pushHistory) {
-      this.history.push(targetScreen);
     }
 
     const nav = document.getElementById('bottom-nav');

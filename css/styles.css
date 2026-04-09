@@ -723,13 +723,14 @@ body {
 }
 
 .chat-body {
-  flex: 1; display: flex; flex-direction: column;
+  flex: 1; display: flex; flex-direction: column-reverse;
   padding: 80px 16px 160px; /* Top padding for fixed header, bottom for input */
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .chat-messages {
-  display: flex; flex-direction: column-reverse; gap: 16px;
+  display: flex; flex-direction: column; gap: 16px;
   width: 100%; max-width: 768px; margin: 0 auto;
 }
 

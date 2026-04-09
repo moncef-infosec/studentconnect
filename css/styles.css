@@ -408,12 +408,7 @@ body {
 }
 .splash-actions .btn-secondary:active { transform: scale(0.97); }
 
-.splash-dots {
-  display: flex; justify-content: center; align-items: center; gap: 8px;
-  padding-top: 16px;
-}
-.splash-dots .dot-active { width: 24px; height: 6px; border-radius: 9999px; background: var(--primary); }
-.splash-dots .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--outline-variant); }
+
 
 /* ============================================
    SCREEN 2: Login
@@ -734,7 +729,7 @@ body {
 }
 
 .chat-messages {
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column-reverse; gap: 16px;
   width: 100%; max-width: 768px; margin: 0 auto;
 }
 

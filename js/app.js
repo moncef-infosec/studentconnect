@@ -359,9 +359,7 @@ const App = {
     // Update Cache
     this.saveToCache(data);
 
-    // Scroll to bottom after batch update
-    const bodyContainer = document.getElementById('chat-body');
-    if (bodyContainer) bodyContainer.scrollTop = bodyContainer.scrollHeight;
+    // Manual scroll is no longer needed with column-reverse
     
     if (this.currentScreen !== 'chat' && this.unreadCount > 0) {
       const badge = document.getElementById('chat-badge');
@@ -442,8 +440,8 @@ const App = {
        wrapper.appendChild(msgDiv);
      }
      
-     messagesContainer.appendChild(wrapper);
-     // Scroll happens in fetchMessages (batch) or subscribeToMessages (individual)
+     // PREPEND for column-reverse layout
+     messagesContainer.prepend(wrapper);
   },
 
   subscribeToMessages() {
@@ -459,10 +457,6 @@ const App = {
         }
         
         this.renderMessage(msg);
-        
-        // Scroll to bottom for new real-time message
-        const bodyContainer = document.getElementById('chat-body');
-        if (bodyContainer) bodyContainer.scrollTop = bodyContainer.scrollHeight;
         
         if (this.currentScreen !== 'chat' && msg.user_id !== this.currentUser?.id) {
           this.incrementUnreadBadge();

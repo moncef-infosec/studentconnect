@@ -344,12 +344,24 @@ const App = {
        const lastRead = this.currentProfile?.last_read_at ? new Date(this.currentProfile.last_read_at) : new Date(0);
        this.unreadCount = 0;
        
+       let lastDate = null;
        data.forEach(msg => {
-          if (new Date(msg.created_at) > lastRead && msg.user_id !== this.currentUser?.id) {
+          const msgDate = new Date(msg.created_at);
+          
+          // Insert date separator if day changed
+          if (!lastDate || !this.isSameDay(lastDate, msgDate)) {
+            this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
+            lastDate = msgDate;
+          }
+
+          if (msgDate > lastRead && msg.user_id !== this.currentUser?.id) {
               this.unreadCount++;
           }
           this.renderMessage(msg, fragment);
        });
+       
+       // Track the last rendered date for real-time updates
+       this.lastRenderedDate = lastDate;
     }
 
     // SWAP: Clear and update in one operation
@@ -369,20 +381,54 @@ const App = {
       }
     }
 
-    // Ensure we start at the latest message
-    this.scrollToBottom();
+    // Ensure we start at the latest message instantly on load
+    this.scrollToBottom(false);
   },
 
-  scrollToBottom() {
+  isSameDay(d1, d2) {
+    if (!d1 || !d2) return false;
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  },
+
+  formatDateLabel(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(now.getDate() - 1);
+
+    if (this.isSameDay(date, now)) return 'Today';
+    if (this.isSameDay(date, yesterday)) return 'Yesterday';
+
+    return date.toLocaleDateString(undefined, { 
+      month: 'long', 
+      day: 'numeric', 
+      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined 
+    });
+  },
+
+  renderDateSeparator(label, container) {
+    const separator = document.createElement('div');
+    separator.className = 'date-separator';
+    separator.innerHTML = `<span class="date-label">${label}</span>`;
+    container.appendChild(separator);
+  },
+
+  scrollToBottom(smooth = true) {
     const body = document.getElementById('chat-body');
     if (!body) return;
     
-    // Smooth scroll to the bottom
-    // In column-reverse, scrollHeight - clientHeight is the top position
-    // but the most cross-browser way is scrollIntoView on the last child
+    // In column-reverse, the latest message is at the bottom of the container.
+    // Use scrollIntoView with configurable behavior (smooth vs instant).
     const messages = document.getElementById('chat-messages');
     if (messages && messages.lastElementChild) {
-      messages.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      messages.lastElementChild.scrollIntoView({ 
+        behavior: smooth ? 'smooth' : 'auto', 
+        block: 'end' 
+      });
     } else {
       body.scrollTop = body.scrollHeight;
     }
@@ -395,6 +441,15 @@ const App = {
       const messagesContainer = container || document.getElementById('chat-messages');
       const bodyContainer = document.getElementById('chat-body');
       if (!messagesContainer || !bodyContainer) return;
+
+      // Handle real-time date separators (when not rendering a batch in a fragment)
+      if (!container) {
+        const msgDate = new Date(msg.created_at);
+        if (!this.lastRenderedDate || !this.isSameDay(this.lastRenderedDate, msgDate)) {
+          this.renderDateSeparator(this.formatDateLabel(msgDate), messagesContainer);
+          this.lastRenderedDate = msgDate;
+        }
+      }
       
       const isMine = this.currentUser && msg.user_id === this.currentUser.id;
       

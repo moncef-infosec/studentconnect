@@ -726,12 +726,31 @@ body {
   flex: 1; display: flex; flex-direction: column-reverse;
   padding: 80px 16px 160px; /* Top padding for fixed header, bottom for input */
   overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 .chat-messages {
   display: flex; flex-direction: column; gap: 16px;
   width: 100%; max-width: 768px; margin: 0 auto;
+}
+
+/* Date Separator */
+.date-separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0 8px;
+  width: 100%;
+}
+
+.date-label {
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  letter-spacing: 0.2px;
 }
 
 .message {

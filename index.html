@@ -154,17 +154,22 @@
     <div class="home-topbar-center"><img alt="Logo" src="assets/logo.png"/><span class="font-headline">StudentConnect</span></div>
     <button class="icon-btn"><span class="material-symbols-outlined">help_outline</span></button>
   </div>
-  <div class="home-content">
-    <div class="bento-grid">
-      <div class="bento-card primary-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span><h3 data-i18n="academic_feed">Academic<br/>Feed</h3></div>
-      <div class="bento-card light-card"><span class="material-symbols-outlined bento-icon" style="font-variation-settings:'FILL' 0,'wght' 200">chat</span><h3 data-i18n="college_messages">College<br/>Messages</h3></div>
-    </div>
-    <div class="stream-section"><h2 class="font-headline" data-i18n="scholarly_stream">The Scholarly Stream</h2><p data-i18n="faculty_insights">Curated insights from your faculty</p></div>
-    <div class="empty-state">
-      <div class="empty-state-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span></div>
-      <h3 class="font-headline" data-i18n="no_updates_title">No updates yet</h3>
-      <p data-i18n="no_updates_desc">Check back later for curated insights and research highlights from your faculty.</p>
-    </div>
+  <div class="home-tabs-bar">
+    <button class="home-tab-item active" data-tab="academic" id="tab-academic">
+      <span class="material-symbols-outlined">auto_stories</span>
+    </button>
+    <button class="home-tab-item" data-tab="messages" id="tab-messages">
+      <span class="material-symbols-outlined">forum</span>
+    </button>
+    <button class="home-tab-item" data-tab="reels" id="tab-reels">
+      <span class="material-symbols-outlined">play_circle</span>
+    </button>
+    <button class="home-tab-item" data-tab="profile" id="tab-profile">
+      <span class="material-symbols-outlined">account_circle</span>
+    </button>
+  </div>
+  <div id="home-tab-content" class="home-tab-content">
+    <!-- Dynamic Content Rendered Here -->
   </div>
 </section>
 

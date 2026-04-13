@@ -27,6 +27,8 @@ const App = {
   messageSubscription: null,
   presenceChannel: null,
   unreadCount: 0,
+  currentHomeTab: 'academic',
+  userStats: { postCount: 0, followerCount: 0, followingCount: 0 },
   currentScreen: 'splash',
   isReady: false,
 
@@ -693,6 +695,10 @@ const App = {
       nav_alerts: "Alerts",
       nav_settings: "Settings",
       student_profile: "Student Profile",
+      followers: "Followers",
+      following: "Following",
+      edit_profile: "Edit Profile",
+      posts: "Posts"
     },
     fr: {
       app_name: "StudentConnect",
@@ -792,6 +798,10 @@ const App = {
       nav_alerts: "Alertes",
       nav_settings: "Paramètres",
       student_profile: "Profil Étudiant",
+      followers: "Abonnés",
+      following: "Abonnements",
+      edit_profile: "Modifier le profil",
+      posts: "Posts"
     },
     ar: {
       app_name: "StudentConnect",
@@ -891,6 +901,10 @@ const App = {
       nav_alerts: "التنبيهات",
       nav_settings: "الإعدادات",
       student_profile: "ملف الطالب",
+      followers: "المتابعون",
+      following: "المتابَعون",
+      edit_profile: "تعديل الملف الشخصي",
+      posts: "المنشورات"
     }
   },
 
@@ -981,6 +995,13 @@ const App = {
       }
     }
     
+    // Ensure home tab is initialized when navigating to home
+    if (targetScreen === 'home') {
+      const tab = this.currentHomeTab || 'academic';
+      this.switchHomeTab(tab);
+      if (tab === 'profile') this.fetchUserStats();
+    }
+    
     // Switch visibility
     const currScreens = document.querySelectorAll('.screen');
     currScreens.forEach(s => {
@@ -1007,6 +1028,383 @@ const App = {
     if (this.history.length > 0) {
       const prev = this.history.pop();
       this.navigate(prev, false);
+    }
+  },
+
+  // ---- Home Tab Navigation ----
+  switchHomeTab(tab) {
+    this.currentHomeTab = tab;
+    const container = document.getElementById('home-tab-content');
+    if (!container) return;
+
+    // Refresh stats if entering profile
+    if (tab === 'profile') {
+      this.fetchUserStats();
+    }
+
+    // Update UI active state
+    document.querySelectorAll('.home-tab-item').forEach(btn => {
+      const isActive = btn.dataset.tab === tab;
+      btn.classList.toggle('active', isActive);
+    });
+
+    // Render View
+    switch(tab) {
+      case 'academic': container.innerHTML = this.AcademicFeedView(); break;
+      case 'messages': container.innerHTML = this.MessagesView(); break;
+      case 'reels': container.innerHTML = this.ReelsView(); break;
+      case 'profile': container.innerHTML = this.ProfileView(); break;
+    }
+
+    // Apply translations to the new content
+    const currentLang = localStorage.getItem('sc-language') || 'en';
+    this.applyTranslations(currentLang);
+  },
+
+  AcademicFeedView() {
+    return `
+      <div class="stream-section">
+        <h2 class="font-headline" data-i18n="scholarly_stream">The Scholarly Stream</h2>
+        <p data-i18n="faculty_insights">Curated insights from your faculty</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">auto_stories</span>
+        </div>
+        <h3 class="font-headline" data-i18n="no_updates_title">No updates yet</h3>
+        <p data-i18n="no_updates_desc">Check back later for curated insights and research highlights from your faculty.</p>
+      </div>
+    `;
+  },
+
+  MessagesView() {
+    return `
+      <div class="stream-section">
+        <h2 class="font-headline">College Messages</h2>
+        <p>Your direct academic communications</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">forum</span>
+        </div>
+        <h3>Inbox is empty</h3>
+        <p>Official messages from your department will appear here.</p>
+      </div>
+    `;
+  },
+
+  ReelsView() {
+    return `
+      <div class="stream-section">
+        <h2 class="font-headline">University Reels</h2>
+        <p>Short highlights from campus life</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 200">play_circle</span>
+        </div>
+        <h3>Coming Soon</h3>
+        <p>We're curating the best moments from across the university.</p>
+      </div>
+    `;
+  },
+
+  ProfileView() {
+    const name = this.currentProfile?.full_name || "Student";
+    const email = this.currentUser?.email || "student@university.edu";
+    const avatar = this.currentProfile?.avatar_url || "assets/logo.png";
+    const postCount = this.userStats?.postCount || 0;
+    
+    return `
+      <div class="profile-redesign">
+        <div class="profile-header">
+          <div class="profile-avatar-wrap" id="avatar-upload-container">
+            <img src="${avatar}" id="profile-avatar" alt="Profile">
+          </div>
+          <div class="profile-info">
+            <h2 id="profile-name">${name}</h2>
+            <p id="profile-email">${email}</p>
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="profile-stat-posts">${this.userStats.postCount}</span>
+            <span class="stat-label" data-i18n="posts">Posts</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="profile-stat-followers">${this.userStats.followerCount}</span>
+            <span class="stat-label" data-i18n="followers">Followers</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="profile-stat-following">${this.userStats.followingCount}</span>
+            <span class="stat-label" data-i18n="following">Following</span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button class="profile-btn primary" onclick="App.createNewPost()">
+            <span class="material-symbols-outlined" style="font-size:18px">add_circle</span>
+            New Post
+          </button>
+          <button class="profile-btn" onclick="App.editProfileName()" data-i18n="edit_profile">Edit Profile</button>
+        </div>
+
+        <div class="profile-content-tabs">
+          <button class="p-tab active" onclick="App.switchProfileTab('grid', this)">
+            <span class="material-symbols-outlined">grid_view</span>
+          </button>
+          <button class="p-tab" onclick="App.switchProfileTab('saved', this)">
+            <span class="material-symbols-outlined">bookmark</span>
+          </button>
+        </div>
+
+        <div class="profile-grid" id="profile-grid">
+           <!-- Grid content will be loaded asynchronously -->
+           <div style="grid-column: 1 / -1; padding: 48px; text-align: center; opacity: 0.5;">Loading your stream...</div>
+        </div>
+      </div>
+      <!-- Hidden file input for avatar upload -->
+      <input type="file" id="avatar-upload" style="display:none" accept="image/*">
+    `;
+  },
+
+  ProfileGridView() {
+    // Generate 9 placeholders for a modern grid look
+    let items = '';
+    for (let i = 1; i <= 9; i++) {
+      items += `
+        <div class="grid-item">
+          <img src="https://picsum.photos/seed/${30 + i}/400/400" alt="Post ${i}">
+          <div class="overlay"></div>
+        </div>
+      `;
+    }
+    return items;
+  },
+
+  async fetchProfileGrid() {
+    if (!this.currentUser || !this.supabase) return;
+    const grid = document.getElementById('profile-grid');
+    if (!grid) return;
+
+    try {
+      const { data, error } = await this.supabase
+        .from('posts')
+        .select('*')
+        .eq('user_id', this.currentUser.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 48px; opacity: 0.5; text-align: center;">No scholarly content yet</div>';
+      } else {
+        grid.innerHTML = data.map(post => `
+          <div class="grid-item">
+            <div class="grid-item-text">
+              <p class="pulse-preview-text">${post.content}</p>
+            </div>
+            <div class="post-actions-overlay">
+              <button class="action-btn-sm" onclick="App.sharePost('${post.id}', \`${post.content.replace(/`/g, '\\`')}\`)" title="Share">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+              <button class="action-btn-sm delete" onclick="App.deletePost('${post.id}')" title="Delete">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    } catch (e) {
+      grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 48px; color: var(--error); text-align: center;">Failed to load posts</div>';
+    }
+  },
+
+  async fetchSavedItems() {
+    if (!this.currentUser || !this.supabase) return;
+    const grid = document.getElementById('profile-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 48px; text-align: center; opacity: 0.5;">Loading saved items...</div>';
+
+    try {
+      const { data, error } = await this.supabase
+        .from('bookmarks')
+        .select('*, messages(*)')
+        .eq('user_id', this.currentUser.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 48px; opacity: 0.5; text-align: center;">No saved items yet</div>';
+      } else {
+        grid.innerHTML = data.map(bookmark => `
+          <div class="grid-item">
+            <div class="grid-item-text">
+              <p class="pulse-preview-text">${bookmark.messages ? bookmark.messages.text : bookmark.posts.content}</p>
+            </div>
+            <div class="post-actions-overlay">
+              <button class="action-btn-sm" onclick="App.sharePost('${bookmark.message_id || bookmark.post_id}', \`${(bookmark.messages ? bookmark.messages.text : bookmark.posts.content).replace(/`/g, '\\`')}\`)" title="Share">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    } catch (e) {
+      grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 48px; color: var(--error); text-align: center;">Failed to load saved items</div>';
+    }
+  },
+
+  switchProfileTab(tab, btn) {
+    // Update active tab UI
+    const tabs = document.querySelectorAll('.p-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (tab === 'saved') {
+      this.fetchSavedItems();
+    } else {
+      this.fetchProfileGrid();
+    }
+  },
+
+  async fetchUserStats() {
+    if (!this.currentUser || !this.supabase) return;
+    
+    try {
+      // 1. Post Count (from POSTS table)
+      const postsCount = await this.supabase
+        .from('posts')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', this.currentUser.id);
+
+      // 2. Followers Count
+      const followersCount = await this.supabase
+        .from('follows')
+        .select('*', { count: 'exact', head: true })
+        .eq('following_id', this.currentUser.id);
+
+      // 3. Following Count
+      const followingCount = await this.supabase
+        .from('follows')
+        .select('*', { count: 'exact', head: true })
+        .eq('follower_id', this.currentUser.id);
+
+      this.userStats = {
+        postCount: postsCount.count || 0,
+        followerCount: followersCount.count || 0,
+        followingCount: followingCount.count || 0
+      };
+
+      this.updateStatsUI();
+      
+      // Load current tab grid as well
+      this.fetchProfileGrid();
+      
+    } catch (e) {
+      console.warn("Failed to fetch user stats:", e);
+    }
+  },
+
+  updateStatsUI() {
+    const pCount = document.getElementById('profile-stat-posts');
+    const fCount = document.getElementById('profile-stat-followers');
+    const flCount = document.getElementById('profile-stat-following');
+    
+    if (pCount) pCount.textContent = this.userStats.postCount;
+    if (fCount) fCount.textContent = this.userStats.followerCount;
+    if (flCount) flCount.textContent = this.userStats.followingCount;
+  },
+
+  async editProfileName() {
+    const currentName = this.currentProfile?.full_name || "";
+    const newName = prompt("Enter your new full name:", currentName);
+    
+    if (newName === null || newName.trim() === "" || newName === currentName) return;
+
+    try {
+      const { data, error } = await this.supabase
+        .from('profiles')
+        .update({ full_name: newName.trim() })
+        .eq('id', this.currentUser.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      this.currentProfile = data;
+      this.updateProfileUI();
+      
+      // Update the specific profile tab elements if they exist
+      const tabName = document.getElementById('profile-name');
+      if (tabName) tabName.textContent = data.full_name;
+      
+    } catch (e) {
+      alert("Error updating profile: " + e.message);
+    }
+  },
+
+  async createNewPost() {
+    const content = prompt("Share a scholarly update or insight:");
+    if (!content || content.trim() === "") return;
+
+    try {
+      const { error } = await this.supabase
+        .from('posts')
+        .insert([{
+          user_id: this.currentUser.id,
+          content: content.trim()
+        }]);
+
+      if (error) throw error;
+
+      // Refresh Stats and Grid
+      this.fetchUserStats();
+      
+    } catch (e) {
+      alert("Error creating post: " + e.message);
+    }
+  },
+
+  async deletePost(postId) {
+    if (!confirm("Are you sure you want to delete this scholarly post? This action cannot be undone.")) return;
+
+    try {
+      const { error } = await this.supabase
+        .from('posts')
+        .delete()
+        .eq('id', postId);
+
+      if (error) throw error;
+
+      // Refresh Stats and Grid
+      this.fetchUserStats();
+      
+    } catch (e) {
+      alert("Error deleting post: " + e.message);
+    }
+  },
+
+  async sharePost(postId, content) {
+    const shareData = {
+      title: 'StudentConnect Scholarly Update',
+      text: content,
+      url: window.location.origin + '/share/post/' + postId
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(`${content}\n\nShared from StudentConnect`);
+        alert("Post content copied to clipboard!");
+      }
+    } catch (e) {
+      console.warn("Sharing failed:", e);
     }
   },
 
@@ -1085,6 +1483,34 @@ const App = {
         }
       });
     }
+
+    // Home Section Tabs
+    document.querySelectorAll('.home-tab-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tab = e.currentTarget.dataset.tab;
+        this.switchHomeTab(tab);
+        
+        // RE-BIND AVATAR UPLOAD if we switched to profile tab
+        if (tab === 'profile') {
+          setTimeout(() => {
+            const avatarContainer = document.getElementById('avatar-upload-container');
+            const avatarInput = document.getElementById('avatar-upload');
+            if (avatarContainer && avatarInput) {
+              avatarContainer.addEventListener('click', () => avatarInput.click());
+              avatarInput.addEventListener('change', async (ev) => {
+                if (ev.target.files && ev.target.files[0]) {
+                  const file = ev.target.files[0];
+                  const img = document.getElementById('profile-avatar');
+                  if (img) img.style.opacity = '0.5';
+                  await this.uploadAvatar(file);
+                  if (img) img.style.opacity = '1';
+                }
+              });
+            }
+          }, 0);
+        }
+      });
+    });
 
     // Splash
     document.getElementById('splash-get-started')?.addEventListener('click', () => this.navigate('create'));

@@ -311,16 +311,17 @@ const App = {
 
   // ---- Chat ----
   async fetchMessages() {
-    const messagesContainer = document.getElementById('chat-body');
+    const messagesContainer = document.getElementById('chat-messages');
     if (!messagesContainer) return;
     
     // Visual feedback that we're loading fresh data
     messagesContainer.style.opacity = '0.7';
     
+    // FETCH OLDEST FIRST (ascending) for double-scaled inverted list
     const { data, error } = await this.supabase
       .from('messages')
       .select('*, profiles (id, full_name, avatar_url)')
-      .order('created_at', { ascending: false }); // NEWEST FIRST for inverted list
+      .order('created_at', { ascending: true }); 
       
     messagesContainer.style.opacity = '1';
 
@@ -349,33 +350,24 @@ const App = {
        
        let lastDate = null;
        
-       // Since data is newest first (e.g. [10:05, 10:01, 10:00]), 
-       // we iterate through it. 
-       data.forEach((msg, index) => {
+       // Data is oldest first, standard iteration
+       data.forEach(msg => {
           const msgDate = new Date(msg.created_at);
           
           if (msgDate > lastRead && msg.user_id !== this.currentUser?.id) {
               this.unreadCount++;
           }
           
-          this.renderMessage(msg, fragment, false);
-          
-          // Date separator logic for inverted list
-          // We add a separator AFTER a message if the NEXT message (which is OLDER) is from a different day.
-          // Since we are building from bottom to top, the separator visually appears ABOVE this message.
-          const nextMsg = data[index + 1];
-          if (nextMsg) {
-             const nextDate = new Date(nextMsg.created_at);
-             if (!this.isSameDay(msgDate, nextDate)) {
-                 this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
-             }
-          } else {
-             // Last message in the array (oldest overall) gets a separator above it
-             this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
+          // Insert date separator if day changed (Chronological)
+          if (!lastDate || !this.isSameDay(lastDate, msgDate)) {
+            this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
+            lastDate = msgDate;
           }
+
+          this.renderMessage(msg, fragment);
        });
        
-       this.lastRenderedDate = new Date(data[0].created_at); // Newest date tracked
+       this.lastRenderedDate = lastDate;
     }
 
     // SWAP: Clear and update in one operation
@@ -461,23 +453,19 @@ const App = {
     }
   },
   
-  renderMessage(msg, container = null, isPrepend = true) {
+  renderMessage(msg, container = null) {
       const emptyState = document.getElementById('chat-empty-state');
       if (emptyState) emptyState.remove();
       
-      const messagesContainer = container || document.getElementById('chat-body');
+      const messagesContainer = container || document.getElementById('chat-messages');
       const bodyContainer = document.getElementById('chat-body');
       if (!messagesContainer || !bodyContainer) return;
 
-      // Handle real-time date separators (when not rendering a batch in a fragment)
+      // Handle real-time date separators
       if (!container) {
         const msgDate = new Date(msg.created_at);
-        // lastRenderedDate is the date of the newest message (DOM index 0).
         if (!this.lastRenderedDate || !this.isSameDay(this.lastRenderedDate, msgDate)) {
-          // If the day changed, add a date separator. 
-          // Since it's a new day, we actually want the separator ABOVE the new message, 
-          // which means it goes AFTER the new message in the DOM (since column-reverse).
-          // We will just update lastRenderedDate for now.
+          this.renderDateSeparator(this.formatDateLabel(msgDate), messagesContainer);
           this.lastRenderedDate = msgDate;
         }
       }
@@ -544,21 +532,8 @@ const App = {
        wrapper.appendChild(msgDiv);
      }
      
-     // PREPEND for real-time new messages in column-reverse, APPEND for initial load 
-     if (isPrepend) {
-         messagesContainer.prepend(wrapper);
-         // If we prepended a new message and it's a new day from the PREVIOUS newest message,
-         // we need a separator ABOVE it (which means after it in the DOM).
-         if (!container && this.lastRenderedDate && !this.isSameDay(this.lastRenderedDate, new Date(msg.created_at))) {
-             const separator = document.createElement('div');
-             separator.className = 'date-separator';
-             separator.innerHTML = `<span class="date-label">${this.formatDateLabel(msg.created_at)}</span>`;
-             // Insert after wrapper in the DOM
-             wrapper.after(separator);
-         }
-     } else {
-         messagesContainer.appendChild(wrapper);
-     }
+     // Always append for chronological order (the double transform handles inversion)
+     messagesContainer.appendChild(wrapper);
   },
 
   subscribeToMessages() {

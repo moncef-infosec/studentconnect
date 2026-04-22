@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="assets/logo.png"/>
-  <link rel="stylesheet" href="css/styles.css?v=1.2.9"/>
+  <link rel="stylesheet" href="css/styles.css?v=1.2.10"/>
   <style>
     #bottom-nav { display: none; }
     #bottom-nav.visible { display: flex; }
@@ -190,17 +190,19 @@
     </div>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="empty-state" id="chat-empty-state">
-      <div style="position:relative;margin-bottom:32px">
-        <div style="width:128px;height:128px;border-radius:50%;background:var(--subtle-bg);display:flex;align-items:center;justify-content:center;animation:pulse 3s infinite">
-          <span class="material-symbols-outlined" style="font-size:64px;color:rgba(0,74,198,0.2);font-variation-settings:'wght' 200">school</span>
+    <div id="chat-messages" class="chat-messages">
+      <div class="empty-state" id="chat-empty-state">
+        <div style="position:relative;margin-bottom:32px">
+          <div style="width:128px;height:128px;border-radius:50%;background:var(--subtle-bg);display:flex;align-items:center;justify-content:center;animation:pulse 3s infinite">
+            <span class="material-symbols-outlined" style="font-size:64px;color:rgba(0,74,198,0.2);font-variation-settings:'wght' 200">school</span>
+          </div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+            <span class="material-symbols-outlined" style="font-size:56px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400">forum</span>
+          </div>
         </div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-          <span class="material-symbols-outlined" style="font-size:56px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400">forum</span>
-        </div>
+        <h3 class="font-headline" style="font-size:1.5rem" data-i18n="no_messages_title">No messages yet</h3>
+        <p data-i18n="chat_empty_desc">Start a conversation with your fellow Political Science students in Batna.</p>
       </div>
-      <h3 class="font-headline" style="font-size:1.5rem" data-i18n="no_messages_title">No messages yet</h3>
-      <p data-i18n="chat_empty_desc">Start a conversation with your fellow Political Science students in Batna.</p>
     </div>
   </div>
   <div class="chat-input-bar">
@@ -508,7 +510,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/app.js?v=1.2.9"></script>
+<script src="js/app.js?v=1.2.10"></script>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

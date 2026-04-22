@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studentconnect-v1.2.7';
+const CACHE_NAME = 'studentconnect-v1.2.9';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

@@ -311,7 +311,7 @@ const App = {
 
   // ---- Chat ----
   async fetchMessages() {
-    const messagesContainer = document.getElementById('chat-messages');
+    const messagesContainer = document.getElementById('chat-body');
     if (!messagesContainer) return;
     
     // Visual feedback that we're loading fresh data
@@ -320,20 +320,18 @@ const App = {
     const { data, error } = await this.supabase
       .from('messages')
       .select('*, profiles (id, full_name, avatar_url)')
-      .order('created_at', { ascending: true });
+      .order('created_at', { ascending: false }); // NEWEST FIRST for inverted list
       
     messagesContainer.style.opacity = '1';
 
     if (error) {
       console.error('Error fetching messages:', error);
-      // If we have cached messages, keep them. Otherwise show error.
       if (messagesContainer.children.length === 0) {
         messagesContainer.innerHTML = `<div class="empty-state"><h3>Connection Error</h3><p>Could not load history. Please check your internet.</p></div>`;
       }
       return;
     }
     
-    // ATOMIC UPDATE: Build in fragment first to prevent flickering
     const fragment = document.createDocumentFragment();
     
     if (data.length === 0) {
@@ -346,28 +344,38 @@ const App = {
            <p>Start the conversation by sending a message below!</p>`;
        fragment.appendChild(empty);
     } else {
-       // Determine last read
        const lastRead = this.currentProfile?.last_read_at ? new Date(this.currentProfile.last_read_at) : new Date(0);
        this.unreadCount = 0;
        
        let lastDate = null;
-       data.forEach(msg => {
+       
+       // Since data is newest first (e.g. [10:05, 10:01, 10:00]), 
+       // we iterate through it. 
+       data.forEach((msg, index) => {
           const msgDate = new Date(msg.created_at);
           
-          // Insert date separator if day changed (Chronological)
-          if (!lastDate || !this.isSameDay(lastDate, msgDate)) {
-            this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
-            lastDate = msgDate;
-          }
-
           if (msgDate > lastRead && msg.user_id !== this.currentUser?.id) {
               this.unreadCount++;
           }
-          this.renderMessage(msg, fragment);
+          
+          this.renderMessage(msg, fragment, false);
+          
+          // Date separator logic for inverted list
+          // We add a separator AFTER a message if the NEXT message (which is OLDER) is from a different day.
+          // Since we are building from bottom to top, the separator visually appears ABOVE this message.
+          const nextMsg = data[index + 1];
+          if (nextMsg) {
+             const nextDate = new Date(nextMsg.created_at);
+             if (!this.isSameDay(msgDate, nextDate)) {
+                 this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
+             }
+          } else {
+             // Last message in the array (oldest overall) gets a separator above it
+             this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
+          }
        });
        
-       // Track the last rendered date for real-time updates
-       this.lastRenderedDate = lastDate;
+       this.lastRenderedDate = new Date(data[0].created_at); // Newest date tracked
     }
 
     // SWAP: Clear and update in one operation
@@ -432,51 +440,44 @@ const App = {
     const body = document.getElementById('chat-body');
     if (!body) return false;
     
-    // Threshold to account for safe area insets and margins
-    const threshold = 150; 
-    const position = body.scrollTop + body.offsetHeight;
-    const height = body.scrollHeight;
-    
-    return position >= height - threshold;
+    // In column-reverse, scrollTop = 0 is the bottom!
+    // Positive or negative values mean scrolled up depending on the browser.
+    return Math.abs(body.scrollTop) < 150;
   },
 
   scrollToBottom(smooth = true) {
     const body = document.getElementById('chat-body');
     if (!body) return;
     
-    // Direct coordinate-based scrolling to the absolute bottom of the container
-    const scrollTarget = body.scrollHeight;
-    
-    // If the element is not yet in the layout, or height is 0, we can't scroll
-    if (scrollTarget === 0) return;
-
+    // In column-reverse, scrolling to top (0) IS scrolling to the visual bottom
     body.scrollTo({
-      top: scrollTarget,
+      top: 0,
       behavior: smooth ? 'smooth' : 'auto'
     });
     
     // Fallback for older browsers
     if (!smooth) {
-      body.scrollTop = scrollTarget;
+      body.scrollTop = 0;
     }
   },
   
-  renderMessage(msg, container = null) {
+  renderMessage(msg, container = null, isPrepend = true) {
       const emptyState = document.getElementById('chat-empty-state');
       if (emptyState) emptyState.remove();
       
-      const messagesContainer = container || document.getElementById('chat-messages');
+      const messagesContainer = container || document.getElementById('chat-body');
       const bodyContainer = document.getElementById('chat-body');
       if (!messagesContainer || !bodyContainer) return;
 
       // Handle real-time date separators (when not rendering a batch in a fragment)
       if (!container) {
         const msgDate = new Date(msg.created_at);
-        // lastRenderedDate is the date of the message visually "above" this one.
-        // In column-reverse, visually above means LATER in the DOM.
+        // lastRenderedDate is the date of the newest message (DOM index 0).
         if (!this.lastRenderedDate || !this.isSameDay(this.lastRenderedDate, msgDate)) {
-          // Add separator at the visual top (END of DOM)
-          this.renderDateSeparator(this.formatDateLabel(msgDate), messagesContainer);
+          // If the day changed, add a date separator. 
+          // Since it's a new day, we actually want the separator ABOVE the new message, 
+          // which means it goes AFTER the new message in the DOM (since column-reverse).
+          // We will just update lastRenderedDate for now.
           this.lastRenderedDate = msgDate;
         }
       }
@@ -503,7 +504,7 @@ const App = {
       avatar.addEventListener('click', () => {
         if (msg.user_id) this.openProfileModal(msg.user_id);
       });
-          const msgDiv = document.createElement('div');
+      const msgDiv = document.createElement('div');
       msgDiv.className = isMine ? 'message message-sent' : 'message message-received';
       
       // Add sender name Above the Bubble
@@ -543,8 +544,21 @@ const App = {
        wrapper.appendChild(msgDiv);
      }
      
-     // APPEND for normal DOM order (parent handles visual inversion)
-                 messagesContainer.appendChild(wrapper);
+     // PREPEND for real-time new messages in column-reverse, APPEND for initial load 
+     if (isPrepend) {
+         messagesContainer.prepend(wrapper);
+         // If we prepended a new message and it's a new day from the PREVIOUS newest message,
+         // we need a separator ABOVE it (which means after it in the DOM).
+         if (!container && this.lastRenderedDate && !this.isSameDay(this.lastRenderedDate, new Date(msg.created_at))) {
+             const separator = document.createElement('div');
+             separator.className = 'date-separator';
+             separator.innerHTML = `<span class="date-label">${this.formatDateLabel(msg.created_at)}</span>`;
+             // Insert after wrapper in the DOM
+             wrapper.after(separator);
+         }
+     } else {
+         messagesContainer.appendChild(wrapper);
+     }
   },
 
   subscribeToMessages() {

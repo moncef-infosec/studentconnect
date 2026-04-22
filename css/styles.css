@@ -1075,20 +1075,30 @@ body {
   display: flex;
   flex-direction: column;
   height: var(--vv-height, 100dvh);
+  min-height: 0; /* Override .screen min-height so keyboard can shrink it */
+  max-height: var(--vv-height, 100dvh);
   overflow: hidden;
-  padding-bottom: 0; /* Remove bottom nav padding */
+  padding-bottom: 0 !important; /* Override .screen-with-nav padding */
 }
 
 .chat-body {
-  flex: 1; display: flex; flex-direction: column;
-  padding: 80px 16px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 16px 8px;
   overflow-y: auto;
+  min-height: 0; /* Allow flex shrink */
 }
 
 .chat-messages {
-  display: flex; flex-direction: column; gap: 16px;
-  width: 100%; max-width: 768px; margin: 0 auto;
-  padding-bottom: 0; /* Input bar is no longer fixed */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  margin-top: auto; /* KEY: pushes messages to bottom like Telegram */
+  padding-bottom: 8px;
 }
 
 /* Date Separator */

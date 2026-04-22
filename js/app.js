@@ -1006,7 +1006,7 @@ const App = {
   },
 
   // ---- Navigation ----
-  navigate(targetScreen, pushHistory = true) {
+  async navigate(targetScreen, pushHistory = true) {
     if (!this.screens[targetScreen]) return;
     
     // Store current screen in history before updating
@@ -1022,12 +1022,12 @@ const App = {
       this.updateLastReadAt();
       this.wasAtBottom = true; // Prime for bottom anchoring
       if (this.supabase && this.currentUser) {
-        this.fetchMessages();
+        // IMPORTANT: await so scroll happens AFTER messages are in DOM
+        await this.fetchMessages();
       }
-      setTimeout(() => {
-        if (this.updateChatPadding) this.updateChatPadding();
-        this.scrollToBottom(false);
-      }, 50);
+      // Scroll after messages are rendered
+      this.scrollToBottom(false);
+      setTimeout(() => this.scrollToBottom(false), 100);
     }
     
     // Ensure home tab is initialized when navigating to home

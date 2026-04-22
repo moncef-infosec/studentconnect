@@ -11,7 +11,7 @@ const App = {
     login: { nav: false },
     create: { nav: false },
     home: { nav: true, navItem: 'home' },
-    chat: { nav: true, navItem: 'chat' },
+    chat: { nav: false, navItem: 'chat' },
     alerts: { nav: true, navItem: 'alerts' },
     settings: { nav: true, navItem: 'settings' },
     notifications: { nav: false },
@@ -31,11 +31,14 @@ const App = {
   userStats: { postCount: 0, followerCount: 0, followingCount: 0 },
   currentScreen: 'splash',
   isReady: false,
+  wasAtBottom: true, // Track if we should stick to the bottom
 
   async init() {
     this.initDarkMode();
     this.initLanguage();
     this.bindEvents();
+    this.initChatObserver();
+    this.initKeyboardAwareness();
     await this.initSupabase();
   },
 
@@ -128,6 +131,7 @@ const App = {
           messagesContainer.innerHTML = '';
           data.forEach(msg => this.renderMessage(msg));
           console.log("Loaded from cache:", data.length, "messages");
+          this.scrollToBottom(false);
         }
       }
     } catch (e) {
@@ -350,7 +354,7 @@ const App = {
        data.forEach(msg => {
           const msgDate = new Date(msg.created_at);
           
-          // Insert date separator if day changed
+          // Insert date separator if day changed (Chronological)
           if (!lastDate || !this.isSameDay(lastDate, msgDate)) {
             this.renderDateSeparator(this.formatDateLabel(msgDate), fragment);
             lastDate = msgDate;
@@ -383,8 +387,13 @@ const App = {
       }
     }
 
-    // Ensure we start at the latest message instantly on load
-    this.scrollToBottom(false);
+    // Robust Multi-Pass Scroll for Normal Layout
+    // 1. Immediate (for content already in DOM)
+    // 2. Short Delay (for browser layout to finish)
+    // 3. Medium Delay (for late-loading assets like avatars)
+    this.scrollToBottom(false); 
+    setTimeout(() => this.scrollToBottom(false), 50);
+    setTimeout(() => this.scrollToBottom(false), 300);
   },
 
   isSameDay(d1, d2) {
@@ -419,20 +428,36 @@ const App = {
     container.appendChild(separator);
   },
 
+  isAtBottom() {
+    const body = document.getElementById('chat-body');
+    if (!body) return false;
+    
+    // Threshold to account for safe area insets and margins
+    const threshold = 150; 
+    const position = body.scrollTop + body.offsetHeight;
+    const height = body.scrollHeight;
+    
+    return position >= height - threshold;
+  },
+
   scrollToBottom(smooth = true) {
     const body = document.getElementById('chat-body');
     if (!body) return;
     
-    // In column-reverse, the latest message is at the bottom of the container.
-    // Use scrollIntoView with configurable behavior (smooth vs instant).
-    const messages = document.getElementById('chat-messages');
-    if (messages && messages.lastElementChild) {
-      messages.lastElementChild.scrollIntoView({ 
-        behavior: smooth ? 'smooth' : 'auto', 
-        block: 'end' 
-      });
-    } else {
-      body.scrollTop = body.scrollHeight;
+    // Direct coordinate-based scrolling to the absolute bottom of the container
+    const scrollTarget = body.scrollHeight;
+    
+    // If the element is not yet in the layout, or height is 0, we can't scroll
+    if (scrollTarget === 0) return;
+
+    body.scrollTo({
+      top: scrollTarget,
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+    
+    // Fallback for older browsers
+    if (!smooth) {
+      body.scrollTop = scrollTarget;
     }
   },
   
@@ -447,7 +472,10 @@ const App = {
       // Handle real-time date separators (when not rendering a batch in a fragment)
       if (!container) {
         const msgDate = new Date(msg.created_at);
+        // lastRenderedDate is the date of the message visually "above" this one.
+        // In column-reverse, visually above means LATER in the DOM.
         if (!this.lastRenderedDate || !this.isSameDay(this.lastRenderedDate, msgDate)) {
+          // Add separator at the visual top (END of DOM)
           this.renderDateSeparator(this.formatDateLabel(msgDate), messagesContainer);
           this.lastRenderedDate = msgDate;
         }
@@ -471,10 +499,10 @@ const App = {
       avatar.src = profileInfo.avatar_url || 'assets/logo.png';
       avatar.alt = profileInfo.full_name || 'Student';
      
-     // Navigation on click
-     avatar.addEventListener('click', () => {
-       if (msg.user_id) this.viewUserProfile(msg.user_id);
-     });
+      // Navigation on click
+      avatar.addEventListener('click', () => {
+        if (msg.user_id) this.openProfileModal(msg.user_id);
+      });
           const msgDiv = document.createElement('div');
       msgDiv.className = isMine ? 'message message-sent' : 'message message-received';
       
@@ -516,7 +544,7 @@ const App = {
      }
      
      // APPEND for normal DOM order (parent handles visual inversion)
-     messagesContainer.appendChild(wrapper);
+                 messagesContainer.appendChild(wrapper);
   },
 
   subscribeToMessages() {
@@ -533,17 +561,17 @@ const App = {
         
         this.renderMessage(msg);
         
+        // Auto-scroll to bottom on new message
+        this.scrollToBottom(true);
+        setTimeout(() => this.scrollToBottom(true), 50);
+        
         if (this.currentScreen !== 'chat' && msg.user_id !== this.currentUser?.id) {
           this.incrementUnreadBadge();
-          this.showToast(msg, msg.profiles);
-          
-          // Trigger system notification if screen is hidden or user is elsewhere
           if (document.visibilityState === 'hidden' || this.currentScreen !== 'chat') {
             this.showSystemNotification(msg, msg.profiles);
           }
         } else if (this.currentScreen === 'chat') {
           this.updateLastReadAt();
-          this.scrollToBottom();
         }
       })
       .subscribe();
@@ -558,6 +586,8 @@ const App = {
     if (!text) return;
 
     input.value = '';
+    input.style.height = 'auto';
+    this.updateChatPadding(); // Reset padding after clearing input
 
     const fullName = this.currentProfile?.full_name || this.currentUser.user_metadata?.full_name || 'Student';
 
@@ -990,9 +1020,14 @@ const App = {
     if (targetScreen === 'chat') {
       this.clearUnreadBadge();
       this.updateLastReadAt();
+      this.wasAtBottom = true; // Prime for bottom anchoring
       if (this.supabase && this.currentUser) {
         this.fetchMessages();
       }
+      setTimeout(() => {
+        if (this.updateChatPadding) this.updateChatPadding();
+        this.scrollToBottom(false);
+      }, 50);
     }
     
     // Ensure home tab is initialized when navigating to home
@@ -1466,11 +1501,126 @@ const App = {
     }
   },
 
+  async openProfileModal(userId) {
+    const modal = document.getElementById('profile-modal');
+    const nameEl = document.getElementById('modal-profile-name');
+    const avatarEl = document.getElementById('modal-profile-avatar');
+    const friendBtn = document.getElementById('modal-friend-btn');
+    const viewBtn = document.getElementById('modal-view-profile-btn');
+    
+    if (!modal || !nameEl || !avatarEl || !friendBtn || !viewBtn) return;
+
+    // Reset UI
+    modal.style.display = 'flex';
+    nameEl.textContent = 'Loading...';
+    avatarEl.src = 'assets/logo.png';
+    friendBtn.disabled = true;
+    friendBtn.innerHTML = `<span class="material-symbols-outlined">sync</span><span class="btn-text">Checking...</span>`;
+
+    // 1. Fetch Profile Data
+    const { data: profile } = await this.supabase.from('profiles').select('*').eq('id', userId).single();
+    if (profile) {
+      nameEl.textContent = profile.full_name || 'Student';
+      if (profile.avatar_url) avatarEl.src = profile.avatar_url;
+    }
+
+    // 2. Fetch Follow Status
+    const isMine = this.currentUser && userId === this.currentUser.id;
+    if (isMine) {
+      friendBtn.style.display = 'none';
+    } else {
+      friendBtn.style.display = 'flex';
+      const { data: follow } = await this.supabase
+        .from('follows')
+        .select('*')
+        .eq('following_id', userId)
+        .eq('follower_id', this.currentUser.id)
+        .single();
+
+      this.updateFollowButton(friendBtn, !!follow);
+      friendBtn.onclick = () => this.toggleFollow(userId, friendBtn);
+      friendBtn.disabled = false;
+    }
+
+    viewBtn.onclick = () => {
+      this.closeProfileModal();
+      this.viewUserProfile(userId);
+    };
+  },
+
+  updateFollowButton(btn, isFollowing) {
+    if (isFollowing) {
+      btn.innerHTML = `<span class="material-symbols-outlined">person_check</span><span class="btn-text">Friends</span>`;
+      btn.classList.replace('btn-secondary', 'btn-primary');
+    } else {
+      btn.innerHTML = `<span class="material-symbols-outlined">person_add</span><span class="btn-text">Add Friend</span>`;
+      btn.classList.replace('btn-primary', 'btn-secondary');
+    }
+  },
+
+  async toggleFollow(targetId, btn) {
+    if (!this.currentUser) return;
+    btn.disabled = true;
+
+    // Check current status
+    const { data: existing } = await this.supabase
+      .from('follows')
+      .select('*')
+      .eq('following_id', targetId)
+      .eq('follower_id', this.currentUser.id)
+      .single();
+
+    if (existing) {
+      // Unfollow
+      const { error } = await this.supabase
+        .from('follows')
+        .delete()
+        .eq('following_id', targetId)
+        .eq('follower_id', this.currentUser.id);
+      
+      if (!error) this.updateFollowButton(btn, false);
+    } else {
+      // Follow
+      const { error } = await this.supabase
+        .from('follows')
+        .insert([{ following_id: targetId, follower_id: this.currentUser.id }]);
+      
+      if (!error) this.updateFollowButton(btn, true);
+    }
+    btn.disabled = false;
+  },
+
+  closeProfileModal() {
+    const modal = document.getElementById('profile-modal');
+    if (modal) modal.style.display = 'none';
+  },
+
   // ---- Event Bindings ----
   bindEvents() {
+    // Track scroll position for sticky behavior
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+      chatBody.addEventListener('scroll', () => {
+        if (this.currentScreen === 'chat') {
+          this.wasAtBottom = this.isAtBottom();
+        }
+      });
+    }
+
     // Avatar Upload
     const avatarContainer = document.getElementById('avatar-upload-container');
     const avatarInput = document.getElementById('avatar-upload');
+    
+    // Close Modal Events
+    const closeBtn = document.getElementById('close-profile-modal');
+    const modalOverlay = document.getElementById('profile-modal');
+    if (closeBtn) closeBtn.onclick = () => this.closeProfileModal();
+    if (modalOverlay) {
+      modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) this.closeProfileModal();
+      };
+    }
+
     if (avatarContainer && avatarInput) {
       avatarContainer.addEventListener('click', () => avatarInput.click());
       avatarInput.addEventListener('change', async (e) => {
@@ -1672,11 +1822,24 @@ const App = {
     document.getElementById('chat-send-btn')?.addEventListener('click', () => {
       this.sendMessage();
     });
-    document.getElementById('chat-input')?.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.sendMessage();
-      }
-    });
+    
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+      // Auto-grow textarea
+      chatInput.addEventListener('input', () => {
+        chatInput.style.height = 'auto';
+        chatInput.style.height = (chatInput.scrollHeight) + 'px';
+        this.updateChatPadding(); // Sync layout as text height changes
+      });
+
+      // Handle Enter (Send) vs Shift+Enter (New Line)
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          this.sendMessage();
+        }
+      });
+    }
 
     // Password visibility toggles
     document.querySelectorAll('.toggle-password').forEach(btn => {
@@ -1706,6 +1869,80 @@ const App = {
       });
     });
 
+  },
+
+  updateChatPadding() {
+    const bar = document.querySelector('.chat-input-bar');
+    const messages = document.getElementById('chat-messages');
+    const body = document.getElementById('chat-body');
+    if (!bar || !messages || !body) return;
+    
+    // Measure total height of the fixed input bar
+    const barHeight = bar.offsetHeight;
+    
+    // Get the viewport offset (for mobile keyboards)
+    const viewportOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--viewport-offset')) || 0;
+
+    // Apply as dynamic padding to the message container (not the body)
+    // In column-reverse, padding-bottom on the messages container ensures
+    // that even short lists stay above the input bar.
+    const totalPadding = barHeight + 16 + 10 + viewportOffset;
+    messages.style.paddingBottom = `${totalPadding}px`;
+    
+    // Maintain standard top padding for the body (header clearance)
+    body.style.paddingBottom = '0px'; 
+  },
+
+  initChatObserver() {
+    const chatBody = document.getElementById('chat-body');
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!chatBody || !messagesContainer) return;
+
+    const observer = new MutationObserver(() => {
+      if (this.currentScreen !== 'chat') return;
+      
+      // If we were at the bottom before the content was added, 
+      // or if it's a very small container (initial load), we scroll.
+      const isStart = chatBody.scrollHeight <= chatBody.offsetHeight + 100;
+
+      if (this.wasAtBottom || isStart) {
+        requestAnimationFrame(() => {
+          this.scrollToBottom();
+          this.wasAtBottom = true; // Ensure state is preserved after scroll
+        });
+      }
+    });
+
+    observer.observe(messagesContainer, { childList: true });
+    this.chatObserver = observer;
+  },
+
+  initKeyboardAwareness() {
+    if (!window.visualViewport) return;
+
+    const handleViewportChange = () => {
+      const vv = window.visualViewport;
+      
+      // Update CSS variable for exact height of the screen
+      document.documentElement.style.setProperty('--vv-height', `${vv.height}px`);
+      
+      // Ensure the old viewport offset is cleared
+      document.documentElement.style.setProperty('--viewport-offset', `0px`);
+
+      // If keyboard opened while in chat, push scroll to bottom
+      if (this.currentScreen === 'chat') {
+        const chatBody = document.getElementById('chat-body');
+        if (chatBody && this.wasAtBottom) {
+          requestAnimationFrame(() => this.scrollToBottom(false));
+        }
+      }
+    };
+
+    window.visualViewport.addEventListener('resize', handleViewportChange);
+    window.visualViewport.addEventListener('scroll', handleViewportChange);
+    
+    // Initial call
+    handleViewportChange();
   }
 };
 

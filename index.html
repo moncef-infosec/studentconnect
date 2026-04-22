@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="assets/logo.png"/>
-  <link rel="stylesheet" href="css/styles.css?v=1.2.2"/>
+  <link rel="stylesheet" href="css/styles.css?v=1.2.4"/>
   <style>
     #bottom-nav { display: none; }
     #bottom-nav.visible { display: flex; }
@@ -208,7 +208,10 @@
   <div class="chat-input-bar">
     <div class="chat-input-row" id="chat-input-form">
       <button class="chat-add-btn"><span class="material-symbols-outlined">add</span></button>
-      <div class="chat-text-wrap"><input type="text" id="chat-input" placeholder="Type a message..."/><button class="emoji-btn"><span class="material-symbols-outlined">mood</span></button></div>
+      <div class="chat-text-wrap">
+        <textarea id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+        <button class="emoji-btn"><span class="material-symbols-outlined">mood</span></button>
+      </div>
       <button class="chat-send-btn" id="chat-send-btn"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">send</span></button>
     </div>
   </div>
@@ -218,13 +221,7 @@
 <section id="alerts-screen" class="screen screen-with-nav">
   <div class="top-bar">
     <div class="top-bar-left">
-      <button style="background:none;border:none;cursor:pointer;color:var(--on-surface-variant)"><span class="material-symbols-outlined">menu</span></button>
       <h1 style="color:var(--on-surface)" data-i18n="alerts_title">Alerts</h1>
-    </div>
-    <div class="top-bar-right">
-      <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--surface-container-high)">
-        <img alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq8sLEs_LVelhgTTZ_4pRODOkW6hVuMXxRDGXsX2A43EbKjLSpSYMyjHmhG_oy0uf1Wm020KRXRvMJ2P2EgUR7KaaVyMTQvr3ewjQtPvpLC_sunEE9xhQeYyIRJliE79MpHfcnNgH72FanliZ_pcjCf3nPKPy03wlM8EYZtkwdnyb0ixT4dycLkbtbu3PgjyyhmZ4rks8HVZ_OCBNT9WKlNgvopt4cxoNWDLqoNLIDLHoHWhtNEOltEI0FK2kAYsef3lKL4ox3Uhk" style="width:100%;height:100%;object-fit:cover"/>
-      </div>
     </div>
   </div>
   <main style="padding-top:64px;flex:1;display:flex;flex-direction:column">
@@ -239,7 +236,7 @@
       <p data-i18n="alerts_empty_desc">No notifications yet. We'll let you know when there's an academic update or a message from the college.</p>
     </div>
   </main>
-  <button class="alerts-fab"><span class="material-symbols-outlined">notification_add</span></button>
+
 </section>
 
 <!-- SCREEN 7: SETTINGS -->
@@ -489,8 +486,31 @@
   </div>
 </section>
 
+<!-- PROFILE INTERACTION MODAL -->
+<div id="profile-modal" class="modal-overlay" style="display:none;">
+  <div class="profile-card">
+    <button id="close-profile-modal" class="close-modal-btn"><span class="material-symbols-outlined">close</span></button>
+    <div class="profile-card-content">
+      <div class="profile-card-avatar">
+        <img id="modal-profile-avatar" src="assets/logo.png" alt="Profile" />
+      </div>
+      <h2 id="modal-profile-name" class="font-headline">Loading...</h2>
+      <div class="profile-card-actions">
+        <button id="modal-friend-btn" class="modal-btn btn-secondary" style="width:100%">
+          <span class="material-symbols-outlined">person_add</span>
+          <span class="btn-text">Add Friend</span>
+        </button>
+        <button id="modal-view-profile-btn" class="modal-btn btn-primary" style="width:100%">
+          <span class="material-symbols-outlined">visibility</span>
+          <span>View Profile</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/app.js?v=1.2.1"></script>
+<script src="js/app.js?v=1.2.4"></script>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

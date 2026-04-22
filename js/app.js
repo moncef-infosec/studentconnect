@@ -1016,28 +1016,7 @@ const App = {
     
     this.currentScreen = targetScreen;
     
-    // Chat-specific logic
-    if (targetScreen === 'chat') {
-      this.clearUnreadBadge();
-      this.updateLastReadAt();
-      this.wasAtBottom = true; // Prime for bottom anchoring
-      if (this.supabase && this.currentUser) {
-        // IMPORTANT: await so scroll happens AFTER messages are in DOM
-        await this.fetchMessages();
-      }
-      // Scroll after messages are rendered
-      this.scrollToBottom(false);
-      setTimeout(() => this.scrollToBottom(false), 100);
-    }
-    
-    // Ensure home tab is initialized when navigating to home
-    if (targetScreen === 'home') {
-      const tab = this.currentHomeTab || 'academic';
-      this.switchHomeTab(tab);
-      if (tab === 'profile') this.fetchUserStats();
-    }
-    
-    // Switch visibility
+    // Switch visibility FIRST — so containers have real layout dimensions
     const currScreens = document.querySelectorAll('.screen');
     currScreens.forEach(s => {
       s.classList.remove('active');
@@ -1047,7 +1026,7 @@ const App = {
     const target = document.getElementById(`${targetScreen}-screen`);
     if (target) {
       target.style.display = 'block';
-      setTimeout(() => target.classList.add('active'), 10);
+      target.classList.add('active');
     }
 
     const nav = document.getElementById('bottom-nav');
@@ -1056,6 +1035,26 @@ const App = {
       this.setActiveNav(targetScreen);
     } else {
       nav.classList.remove('visible');
+    }
+
+    // Chat-specific logic (screen is now visible, layout is calculated)
+    if (targetScreen === 'chat') {
+      this.clearUnreadBadge();
+      this.updateLastReadAt();
+      this.wasAtBottom = true;
+      if (this.supabase && this.currentUser) {
+        await this.fetchMessages();
+      }
+      // Now scroll — container is visible and has real scrollHeight
+      this.scrollToBottom(false);
+      setTimeout(() => this.scrollToBottom(false), 100);
+    }
+    
+    // Ensure home tab is initialized when navigating to home
+    if (targetScreen === 'home') {
+      const tab = this.currentHomeTab || 'academic';
+      this.switchHomeTab(tab);
+      if (tab === 'profile') this.fetchUserStats();
     }
   },
 
